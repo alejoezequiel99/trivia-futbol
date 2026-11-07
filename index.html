@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Trivia Gol - El juego definitivo de trivia de fútbol con ligas del mundo, fútbol argentino, ascenso, comodines, monedas y museo de coleccionables.">
+  <meta name="theme-color" content="#080d1a">
+  <title>Trivia Gol | Edición Ligas, Ascenso y Coleccionables</title>
+
+  <!-- Google Fonts: Outfit & Plus Jakarta Sans -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <!-- Hoja de estilos -->
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <!-- Contenedor Principal de la Aplicación -->
+  <div class="app-wrapper">
+    
+    <!-- Barra Superior Global (Header) con Monedero y Accesos -->
+    <header class="top-nav">
+      <div class="brand" id="brand-logo" role="button" title="Ir al Menú Principal">
+        <span class="brand-icon">⚽</span>
+        <span class="brand-name">Trivia<span class="text-accent">Gol</span></span>
+      </div>
+
+      <div class="top-actions">
+        <!-- Monedero del Jugador con animación de ganancia -->
+        <div class="coins-pill" id="coins-pill" title="Tus Monedas disponibles para usar comodines">
+          <span class="coin-icon">🪙</span>
+          <span id="player-coins" class="coin-count">100</span>
+          <span id="coin-floating-indicator" class="coin-floating-indicator">+15</span>
+        </div>
+
+        <!-- Botón para abrir la Vitrina / Museo de Coleccionables -->
+        <button id="btn-open-museum" class="nav-btn museum-btn" title="Ver mi Vitrina y Colección">
+          <span class="nav-icon">🏆</span>
+          <span class="nav-text">Vitrina</span>
+          <span id="museum-count-badge" class="count-badge">0/22</span>
+        </button>
+
+        <!-- Botón de Audio Mute/Unmute -->
+        <button id="sound-toggle-btn" class="icon-btn" title="Activar/Silenciar Efectos de Sonido" aria-label="Control de sonido">
+          <span id="sound-icon">🔊</span>
+        </button>
+      </div>
+    </header>
+
+    <main class="main-container">
+
+      <!-- ============================================== -->
+      <!-- PANTALLA 1: INICIO Y SELECTOR DE SECTORES / LIGAS -->
+      <!-- ============================================== -->
+      <section id="screen-home" class="screen active">
+        <!-- Hero Card -->
+        <div class="hero-card">
+          <div class="hero-badge-container">
+            <span class="pill-badge">🎮 Edición Pro 2024</span>
+          </div>
+          <h1 class="hero-title">El Gran Desafío del <span class="gradient-text">Fútbol</span></h1>
+          <p class="hero-desc">
+            Preguntas difíciles, trampas capciosas y pura mística futbolera.
+            Ganá monedas, usá comodines y coleccioná <strong>camisetas clásicas, trofeos y cromos de leyendas</strong>.
+          </p>
+
+          <!-- Estadísticas Rápidas del Jugador -->
+          <div class="quick-stats">
+            <div class="stat-box">
+              <span class="stat-value" id="home-total-levels">0 / 75</span>
+              <span class="stat-label">Niveles Totales</span>
+            </div>
+            <div class="stat-box">
+              <span class="stat-value" id="home-unlocked-items">0 / 22</span>
+              <span class="stat-label">Coleccionables</span>
+            </div>
+            <div class="stat-box">
+              <span class="stat-value" id="home-total-coins">100</span>
+              <span class="stat-label">🪙 Monedas</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Título de Selección de Sectores -->
+        <div class="section-heading">
+          <h2>Elegí tu Sector o Liga</h2>
+          <p>Cada sector tiene 15 niveles de dificultad progresiva con premios exclusivos</p>
+        </div>
+
+        <!-- Grilla de Sectores / Ligas -->
+        <div class="sectors-grid" id="sectors-grid">
+          <!-- 1. Fútbol Mundial -->
+          <div class="sector-card" data-sector="mundial">
+            <div class="sector-card-top">
+              <span class="sector-icon">🌍</span>
+              <span class="badge badge-primary">Clásicos & Mundiales</span>
+            </div>
+            <h3 class="sector-title">Fútbol Mundial</h3>
+            <p class="sector-desc">Copas del Mundo, Champions League, Balones de Oro, mitos universales y preguntas capciosas.</p>
+            <div class="sector-footer">
+              <span class="sector-progress" id="progress-mundial">0/15 Completados</span>
+              <span class="sector-arrow">➔</span>
+            </div>
+          </div>
+
+          <!-- 2. Fútbol Argentino -->
+          <div class="sector-card" data-sector="argentino">
+            <div class="sector-card-top">
+              <span class="sector-icon">🇦🇷</span>
+              <span class="badge badge-primary">Primera División</span>
+            </div>
+            <h3 class="sector-title">Fútbol Argentino</h3>
+            <p class="sector-desc">Superclásicos, Copas AFA, Libertadores inolvidables, anécdotas de vestuario e historia pura.</p>
+            <div class="sector-footer">
+              <span class="sector-progress" id="progress-argentino">0/15 Completados</span>
+              <span class="sector-arrow">➔</span>
+            </div>
+          </div>
+
+          <!-- 3. Fútbol de Ascenso -->
+          <div class="sector-card" data-sector="ascenso">
+            <div class="sector-card-top">
+              <span class="sector-icon">🎺</span>
+              <span class="badge badge-warning">Mística de Cancha</span>
+            </div>
+            <h3 class="sector-title">Fútbol de Ascenso</h3>
+            <p class="sector-desc">El barro, Nacional B, Primera B, apodos de estadios, clubes barriales y hazañas legendarias.</p>
+            <div class="sector-footer">
+              <span class="sector-progress" id="progress-ascenso">0/15 Completados</span>
+              <span class="sector-arrow">➔</span>
+            </div>
+          </div>
+
+          <!-- 4. Premier League -->
+          <div class="sector-card" data-sector="premier">
+            <div class="sector-card-top">
+              <span class="sector-icon">🏴󠁧󠁢󠁥󠁮󠁧󠁿</span>
+              <span class="badge badge-purple">Inglaterra</span>
+            </div>
+            <h3 class="sector-title">Premier League</h3>
+            <p class="sector-desc">The Big Six, los invictos de Wenger, el United de Ferguson, goleadores históricos y sorpresas.</p>
+            <div class="sector-footer">
+              <span class="sector-progress" id="progress-premier">0/15 Completados</span>
+              <span class="sector-arrow">➔</span>
+            </div>
+          </div>
+
+          <!-- 5. LaLiga Española -->
+          <div class="sector-card" data-sector="laliga">
+            <div class="sector-card-top">
+              <span class="sector-icon">🇪🇸</span>
+              <span class="badge badge-accent">España</span>
+            </div>
+            <h3 class="sector-title">LaLiga Española</h3>
+            <p class="sector-desc">El Clásico Real Madrid vs Barcelona, el Cholo en el Atleti, Pichichis legendarios y datos insólitos.</p>
+            <div class="sector-footer">
+              <span class="sector-progress" id="progress-laliga">0/15 Completados</span>
+              <span class="sector-arrow">➔</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============================================== -->
+      <!-- PANTALLA 2: MAPA DE NIVELES DEL SECTOR -->
+      <!-- ============================================== -->
+      <section id="screen-map" class="screen">
+        <div class="map-header">
+          <div class="map-header-left">
+            <button id="btn-map-back-home" class="btn-back" title="Volver al selector de ligas">← Cambiar Sector</button>
+            <div class="sector-active-title-wrap">
+              <span id="map-sector-icon" class="sector-title-icon">⚽</span>
+              <h2 id="map-sector-title" class="section-title">Fútbol Mundial</h2>
+            </div>
+          </div>
+          <div class="map-progress-pill">
+            <span>Superados:</span>
+            <strong id="map-progress-text">0 / 15</strong>
+          </div>
+        </div>
+
+        <p class="map-subtitle" id="map-subtitle-text">
+          Avanzá nivel a nivel acertando al menos 2 preguntas. ¡Ganarás monedas y desbloquearás camisetas, trofeos y cromos!
+        </p>
+
+        <!-- Leyenda de Dificultades -->
+        <div class="difficulty-legend">
+          <span class="badge badge-easy">🟢 1-5 Principiante</span>
+          <span class="badge badge-medium">🟡 6-10 Calificado</span>
+          <span class="badge badge-hard">🔴 11-15 Experto / Capcioso</span>
+        </div>
+
+        <!-- Grilla de 15 Niveles dinámicos -->
+        <div id="levels-grid" class="levels-grid">
+          <!-- Generado desde script.js -->
+        </div>
+
+        <div class="map-footer">
+          <button id="btn-reset-progress" class="btn-link-danger">Reiniciar progreso guardado de este sector</button>
+        </div>
+      </section>
+
+      <!-- ============================================== -->
+      <!-- PANTALLA 3: JUEGO / PREGUNTAS CON COMODINES -->
+      <!-- ============================================== -->
+      <section id="screen-game" class="screen">
+        <!-- Barra de Control del Nivel -->
+        <div class="game-top-bar">
+          <button id="btn-game-exit" class="btn-back" title="Salir al mapa">← Salir</button>
+          <div class="level-indicator">
+            <span id="game-level-badge" class="badge badge-easy">Nivel 1</span>
+            <span id="game-level-title" class="level-title-text">Mundial Qatar 2022</span>
+          </div>
+          <div class="score-pill">
+            <span class="score-icon">⚽</span>
+            <span id="game-score-count">0</span>
+          </div>
+        </div>
+
+        <!-- BARRA DE COMODINES / POWER-UPS -->
+        <div class="powerups-bar">
+          <span class="powerups-title">Comodines:</span>
+          <div class="powerups-list">
+            <!-- 1. Comodín 50/50 -->
+            <button id="powerup-5050" class="powerup-btn" title="Elimina 2 opciones incorrectas">
+              <span class="powerup-icon">💡</span>
+              <span class="powerup-name">50/50</span>
+              <span class="powerup-cost">30 🪙</span>
+            </button>
+            <!-- 2. Cambiar Pregunta -->
+            <button id="powerup-change" class="powerup-btn" title="Cambia a otra pregunta del banco">
+              <span class="powerup-icon">🔄</span>
+              <span class="powerup-name">Cambiar</span>
+              <span class="powerup-cost">40 🪙</span>
+            </button>
+            <!-- 3. Pase de Gol (Saltear) -->
+            <button id="powerup-skip" class="powerup-btn" title="Pase de gol: acierta automáticamente la pregunta">
+              <span class="powerup-icon">⏩</span>
+              <span class="powerup-name">Pase de Gol</span>
+              <span class="powerup-cost">60 🪙</span>
+            </button>
+            <!-- 4. Tiempo Extra -->
+            <button id="powerup-time" class="powerup-btn" title="Agrega +15 segundos al temporizador">
+              <span class="powerup-icon">⏱️</span>
+              <span class="powerup-name">+15s</span>
+              <span class="powerup-cost">25 🪙</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Temporizador y Barra de Progreso -->
+        <div class="timer-section">
+          <div class="timer-info">
+            <span class="question-tracker" id="game-question-tracker">Pregunta 1 de 3</span>
+            <div class="timer-display" id="timer-display">
+              <span class="timer-icon">⏱️</span>
+              <span id="timer-seconds">30</span>s
+            </div>
+          </div>
+          <div class="progress-bar-bg">
+            <div id="timer-bar" class="progress-bar-fill"></div>
+          </div>
+        </div>
+
+        <!-- Tarjeta de Pregunta -->
+        <div class="question-card">
+          <div class="question-badges-row">
+            <span class="question-category" id="question-category">Categoría</span>
+            <span class="badge badge-tricky hidden" id="question-tricky-badge">🧠 Pregunta Capciosa</span>
+          </div>
+          <h2 class="question-text" id="question-text">Cargando pregunta...</h2>
+        </div>
+
+        <!-- Opciones de Respuesta -->
+        <div class="options-grid" id="options-container">
+          <!-- Generadas dinámicamente -->
+        </div>
+
+        <!-- Banner de Feedback Instantáneo con Explicación de la Trampa -->
+        <div id="feedback-banner" class="feedback-banner hidden">
+          <div class="feedback-content">
+            <div class="feedback-title-row">
+              <span id="feedback-icon" class="feedback-icon">✔</span>
+              <span id="feedback-msg" class="feedback-msg">¡Correcto!</span>
+            </div>
+            <p id="feedback-explanation" class="feedback-explanation"></p>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============================================== -->
+      <!-- PANTALLA 4: RESULTADOS Y PREMIOS -->
+      <!-- ============================================== -->
+      <section id="screen-results" class="screen">
+        <div class="results-card">
+          <div id="results-icon-container" class="results-icon">🏆</div>
+          <span id="results-status-badge" class="badge badge-success">¡Nivel Superado!</span>
+          
+          <h2 id="results-title" class="results-title">¡Gran Partido!</h2>
+          <p id="results-message" class="results-message">
+            Demostraste categoría de primera división.
+          </p>
+
+          <!-- Ganancias en Monedas -->
+          <div class="coins-earned-box">
+            <span class="coins-earned-label">Recompensa obtenida:</span>
+            <div class="coins-earned-val">
+              <span class="coin-icon">🪙</span>
+              <span id="results-coins-won">+75 Monedas</span>
+            </div>
+          </div>
+
+          <!-- RECOMPENSA DE COLECCIONABLE DESBLOQUEADO (SI CORRESPONDE) -->
+          <div id="results-unlock-box" class="collectible-unlock-box hidden">
+            <span class="unlock-banner-tag">🎉 ¡NUEVO COLECCIONABLE DESBLOQUEADO!</span>
+            <div class="unlock-item-card">
+              <span class="unlock-item-icon" id="unlock-item-icon">👕</span>
+              <div class="unlock-item-details">
+                <span class="unlock-item-type" id="unlock-item-type">Camiseta Histórica</span>
+                <h4 class="unlock-item-name" id="unlock-item-name">Argentina 1986</h4>
+                <p class="unlock-item-desc" id="unlock-item-desc">La mítica azul de Diego ante Inglaterra.</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Resumen de Estadísticas del Nivel -->
+          <div class="results-stats">
+            <div class="result-stat-item">
+              <span class="stat-number" id="results-score">3 / 3</span>
+              <span class="stat-label">Aciertos</span>
+            </div>
+            <div class="result-stat-item">
+              <span class="stat-number" id="results-accuracy">100%</span>
+              <span class="stat-label">Efectividad</span>
+            </div>
+            <div class="result-stat-item">
+              <span class="stat-number" id="results-sector-tag">Mundial</span>
+              <span class="stat-label">Sector</span>
+            </div>
+          </div>
+
+          <!-- Botones de Acción Posterior -->
+          <div class="results-actions">
+            <button id="btn-next-level" class="btn btn-primary btn-glow">
+              <span>Siguiente Nivel</span>
+              <span>➔</span>
+            </button>
+            <button id="btn-retry-level" class="btn btn-secondary">
+              <span>🔄 Reintentar Nivel</span>
+            </button>
+            <button id="btn-results-map" class="btn btn-ghost">
+              <span>🗺️ Ir al Mapa de este Sector</span>
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============================================== -->
+      <!-- PANTALLA 5: VITRINA / MUSEO DE COLECCIONABLES -->
+      <!-- ============================================== -->
+      <section id="screen-museum" class="screen">
+        <div class="museum-header">
+          <button id="btn-museum-back" class="btn-back">← Volver</button>
+          <div class="museum-title-group">
+            <h2 class="section-title">🏛️ Museo de Recompensas</h2>
+            <span class="museum-counter" id="museum-header-counter">Coleccionados: 0 / 22</span>
+          </div>
+        </div>
+
+        <p class="museum-subtitle">
+          Superá niveles en los distintos sectores para desbloquear camisetas legendarias, copas históricas y cartas de los mejores jugadores de todos los tiempos.
+        </p>
+
+        <!-- Filtros de Coleccionables -->
+        <div class="museum-tabs">
+          <button class="tab-btn active" data-tab="all">Todos (22)</button>
+          <button class="tab-btn" data-tab="jerseys">👕 Camisetas (8)</button>
+          <button class="tab-btn" data-tab="trophies">🏆 Trofeos (6)</button>
+          <button class="tab-btn" data-tab="cards">🃏 Cromos de Leyenda (8)</button>
+        </div>
+
+        <!-- Grilla de Coleccionables -->
+        <div class="collectibles-grid" id="collectibles-grid">
+          <!-- Generado dinámicamente con JavaScript -->
+        </div>
+      </section>
+
+    </main>
+
+    <!-- Pie de página minimalista -->
+    <footer class="app-footer">
+      <p>Trivia Gol Edición Coleccionista | Listo para desplegar en <strong>GitHub Pages</strong></p>
+    </footer>
+
+  </div>
+
+  <!-- Script con la lógica del juego y economía -->
+  <script src="script.js"></script>
+</body>
+</html>
