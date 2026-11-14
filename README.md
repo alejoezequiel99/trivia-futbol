@@ -1,89 +1,96 @@
-# ⚽ Master Fútbol Trivia Pro | Edición Videojuego Deportivo
+# ⚽ Master Fútbol Trivia Pro | Plataforma Profesional de Entretenimiento Futbolístico
 
 [![GitHub Pages](https://img.shields.io/badge/Deploy-GitHub%20Pages-10B981?style=for-the-badge&logo=github)](https://alejoezequiel99.github.io/trivia-futbol/)
 [![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-38BDF8?style=for-the-badge&logo=tailwind-css&logoColor=white)](https://tailwindcss.com/)
-[![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black)](https://developer.mozilla.org/es/docs/Web/JavaScript)
+[![JavaScript](https://img.shields.io/badge/JavaScript-ES6+-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black)](https://developer.mozilla.org/es/docs/Web/JavaScript)
 [![Licencia](https://img.shields.io/badge/Licencia-MIT-F59E0B?style=for-the-badge)](LICENSE)
 
-**Master Fútbol Trivia Pro** es una aplicación web interactiva competitiva de preguntas y respuestas sobre fútbol internacional, torneos locales, ascenso y grandes ligas. Diseñada con estética de videojuego deportivo profesional (Dark Mode con tonos pizarra, Verde Césped `#10B981` y Dorado Trofeo `#F59E0B`), comodines en vivo, economía de monedas **FutCoins** y una **Vitrina / Club** con 22 artículos coleccionables estilo Ultimate Team.
+**Master Fútbol Trivia Pro** es una plataforma web interactiva de entretenimiento y trivia futbolística de calidad internacional, inspirada en las mejores referencias globales del género (*Sporcle*, *PlayFootball.Games*, *Futbolle*, *FourFourTwo* y *Triviverse*).
+
+Desarrollada con estética visual deportiva profesional (Dark Mode pizarra `#090D14`, Verde Césped Neón `#10B981`, Púrpura Eléctrico `#A855F7` y Dorado `#F59E0B`), motor de audio sintetizado con **Web Audio API**, persistencia automática en `localStorage` y arquitectura 100% compatible con **GitHub Pages**.
 
 ---
 
-## 🆚 Comparativa: ¿Qué hay de nuevo frente a la versión anterior?
+## 🚀 Modos de Juego Disponibles
 
-| Característica | Versión Anterior (Trivia Gol) | Versión Actual (Master Fútbol Trivia Pro) |
-| :--- | :--- | :--- |
-| **Arquitectura** | 3 archivos (`index.html`, `style.css`, `script.js`) | **1 archivo autónomo (`index.html`)** con Tailwind CDN y FontAwesome 6 |
-| **Categorías** | 1 serie general de preguntas | **5 Ligas/Sectores dedicados** + Modo SuperMix Total |
-| **Dificultad** | Preguntas estándar | **Preguntas capciosas y de doble lectura** con datos poco conocidos |
-| **Economía** | Sin monedas | **Sistema de FutCoins** (inicias con 200, multiplicador por racha) |
-| **Comodines en Vivo** | Inexistentes | **4 Comodines:** 50/50, Pista del DT, VAR y Pase de Gol |
-| **Temporizador** | 30 segundos fijo | **20 segundos dinámico** con cambio de color y alerta de peligro |
-| **Feedback** | Solo indicaba correcta/incorrecta | **Tarjeta educativa con explicación histórica y derribo de mitos** |
-| **Coleccionables** | Sin vitrina | **22 Coleccionables:** Camisetas clásicas, Trofeos y Cartas FUT |
+### 1. 🏆 Trivia por Ligas y Sectores (Modo Clásico)
+- **5 Sectores temáticos + Modo SuperMix:**
+  - 🌍 **Fútbol Mundial:** Mundiales, Champions League, Balones de Oro, récords y leyendas.
+  - 🇦🇷 **Fútbol Argentino:** Primera División AFA, Superclásicos, Libertadores e historia criolla.
+  - 🎺 **Fútbol de Ascenso:** Primera Nacional, B Metro, canchas de barro y ascensos históricos.
+  - 🏴󠁧󠁢󠁥󠁮󠁧󠁿 **Premier League:** The Big Six, *The Invincibles*, entrenadores célebres y récords británicos.
+  - 🇪🇸 **LaLiga:** El Clásico, récords de goleo, leyendas de época y clubes tradicionales.
+  - 🔀 **SuperMix Fútbol Total:** Batería combinada de preguntas de todas las categorías.
+- **4 Dificultades** con insignias dinámicas: Fácil, Intermedio, Difícil y Experto.
+- **4 Comodines en Vivo:** 50/50, Pista del DT, VAR/Cambio y Pase de Gol.
+- **Pantalla de Resumen Final** con desglose de cada pregunta y fuentes oficiales.
 
----
+### 2. 🕵️‍♂️ Adiviná el Jugador
+- Fotografía con **desenfoque progresivo** de `22px` a `0px`.
+- **5 pistas** revelables: Nacionalidad, Posición, Generación, Clubes e Hito.
+- Autocompletado con 75+ figuras mundiales y normalización de apodos.
+- Recompensas decrecientes: **100→75→50→30→15 FutCoins** según intentos.
+- **25 futbolistas** icónicos (Messi, Maradona, CR7, Mbappé, Haaland y más).
 
-## 🎮 Mecánicas y Funcionalidades del Juego
+### 3. 🗺️ Camino de Carrera
+- **Línea temporal cronológica interactiva** de transferencias de clubes.
+- Nodos numerados con años, países/ligas y etiquetas de cesión (Préstamo).
+- **4 intentos** con 3 pistas de respaldo revelables: Nacionalidad, Posición y Logro Clave.
+- **25 trotamundos legendarios** (Zlatan, Tevez, Falcao, Anelka, Seedorf, Forlán y más).
 
-### 1. Sectores y Ligas de Competición
-- 🌍 **Fútbol Mundial:** Copas del Mundo, Champions League, Balones de Oro, mitos universales y récords históricos.
-- 🇦🇷 **Fútbol Argentino:** Primera División AFA, Superclásicos de época, Copas Libertadores y anécdotas de vestuario.
-- 🎺 **Fútbol de Ascenso:** La mística del barro, Primera Nacional, B Metro, estadios con historia, apodos barriales y ascensos épicos.
-- 🏴󠁧󠁢󠁥󠁮󠁧󠁿 **Premier League:** The Big Six, los *Invincibles* de Arsène Wenger, el United de Ferguson y récords británicos.
-- 🇪🇸 **LaLiga Española:** El Clásico Real Madrid vs. Barcelona, el invencible Athletic de Bilbao, récords Pichichi y figuras de época.
-- 🔀 **SuperMix Fútbol Total:** Desafío combinado de todas las categorías con máxima bonificación de monedas.
-
-### 2. Barra de Comodines Activos (Lifelines)
-Durante la partida podés activar 4 comodines estratégicos usando tus monedas:
-- 💡 **50/50 (50 FutCoins):** Descarta 2 opciones incorrectas con tachado visual en pantalla.
-- 📋 **Pista del DT (75 FutCoins):** Muestra un consejo táctico del entrenador que te orienta sin revelar la respuesta.
-- 📺 **VAR / Cambio de Pregunta (100 FutCoins):** Reemplaza la pregunta en curso por otra del banco de la misma categoría.
-- ⚡ **Pase de Gol (150 FutCoins):** Valida la pregunta como acertada automáticamente para proteger y extender tu racha.
-
-### 3. Sistema de Racha y Economía (FutCoins)
-- Comienzas tu carrera con **200 FutCoins**.
-- Cada respuesta correcta suma **+20 monedas base**, más un **bonus de +5 monedas por cada punto de racha activa** (🔥).
-- Si fallas o se te acaba el tiempo de 20 segundos, la racha se reinicia a 0.
-
-### 4. Museo y Vitrina de Recompensas (22 Coleccionables)
-Dividido en tres secciones con desbloqueo progresivo según tu desempeño y rachas:
-- 👕 **8 Camisetas Históricas:**
-  - *Argentina 1986* (La Azul mística de Diego ante Inglaterra).
-  - *Arsenal 2003-04* (The Invincibles).
-  - *Boca Juniors 2000* (Campeón Intercontinental en Tokio ante Real Madrid).
-  - *River Plate 1996* (Bicampeón de América con Francescoli).
-  - *Barcelona 2011* (El Sextete y el baile en Wembley).
-  - *Nueva Chicago 2001* (El ascenso histórico en Córdoba).
-  - *Chacarita Juniors 1969* (El Funebrero campeón del Metropolitano).
-  - *Leicester City 2016* (El milagro de Claudio Ranieri).
-- 🏆 **6 Trofeos Sagrados:**
-  - *Copa del Mundo FIFA*, *UEFA Champions League (La Orejona)*, *Copa Libertadores*, *Trofeo Primera B Nacional*, *Copa Intercontinental* y *Balón de Oro de Honor*.
-- 🃏 **8 Cartas Ultimate Team (FUT Style):**
-  - Con marcos y rarezas (*Bronce*, *Plata*, *Oro*, *Leyenda*): Lionel Messi (99), Diego Maradona (99), "El Trinche" Carlovich (89), Juan Román Riquelme (94), Thierry Henry (94), Alfredo Di Stéfano (96), Erling Haaland (92) y Hugo "Mono" Navarro (84).
+### 4. 📅 Desafío Diario Oficial (Nuevo en Etapa 5)
+- **Mismo reto para toda la comunidad:** 10 preguntas generadas a partir de una semilla matemática determinista basada en la fecha `YYYY-MM-DD` (todos los usuarios reciben exactamente las mismas preguntas cada día).
+- **Bloqueo anti-abuso:** Solo se puede completar una vez por día. Al día siguiente se activa un nuevo desafío.
+- **Temporizador de 20 segundos por pregunta** con cambio de color de alerta.
+- **Racha de Días Consecutivos 🔥:** Registra si jugaste ayer y suma a la racha diaria. Si cortás la racha, vuelve a 1.
+- **Economía equilibrada:** Base de 150🪙 + 10🪙 por pregunta correcta + hasta 100🪙 de bonus por racha diaria + 75 XP base.
+- **Countdown al próximo reto:** Contador regresivo a medianoche visible en la tarjeta del menú y en el panel de resultado.
+- **Resultado compartible:** Genera un bloque de texto con emojis (🟩/🟥 por pregunta) copiable al portapapeles para compartir en redes sociales.
+- **Historial de desafíos:** Registra cada partida diaria en `localStorage` (puntuación, monedas, XP, racha y timestamp).
 
 ---
 
-## 🛠️ Tecnologías Utilizadas
+## 🎖️ Progresión y Coleccionables
 
-- **HTML5 Semántico:** Estructura limpia y accesible de Aplicación de Página Única (SPA).
-- **Tailwind CSS (CDN):** Diseño responsivo de alta gama para celulares, tablets y monitores.
-- **FontAwesome 6 & Google Fonts:** Tipografías deportivas (*Outfit* y *Plus Jakarta Sans*) e iconografía deportiva completa.
-- **JavaScript Moderno (ES6+):** Motor de temporizador dinámico, evaluación de respuestas, comodines, control de audio sintetizado con **Web Audio API** (sin archivos de audio externos) y persistencia mediante `localStorage`.
+### Rangos de Carrera de Jugador (XP)
+- **Nivel 1 (0 XP):** Promesa — **Nivel 2 (150 XP):** Debutante — **Nivel 3 (300 XP):** Titular
+- **Nivel 4 (450 XP):** Capitán — **Nivel 5 (600 XP):** Ídolo — **Nivel 6 (750+ XP):** Leyenda
+
+### Museo y Vitrina del Club (22 Coleccionables)
+- 👕 **8 Camisetas Históricas** — 🏆 **6 Trofeos Sagrados** — 🃏 **8 Cartas FUT Style** (Bronce a Leyenda)
+
+---
+
+## ⌨️ Controles y Accesibilidad
+- `1-4` / `A-D`: Responder opciones en la trivia clásica.
+- `Enter`: Enviar respuesta (Adiviná el Jugador / Camino de Carrera) o avanzar pregunta.
+- `Escape`: Cerrar lista de autocompletado.
+- 🔊 Sonido sintetizado **Web Audio API** activable/desactivable desde la cabecera.
+
+---
+
+## 🗺️ Hoja de Ruta (Roadmap)
+
+- [x] **Etapa 1:** Persistencia profunda, resumen de partida, hub de modos y rangos de carrera.
+- [x] **Etapa 2:** Banco ampliado a 85 preguntas verificadas con 4 dificultades y fuentes oficiales.
+- [x] **Etapa 3:** Modo "Adiviná el Jugador" (fotos desenfocadas, pistas y autocompletado).
+- [x] **Etapa 4:** Modo "Camino de Carrera" (timeline cronológico de transferencias).
+- [x] **Etapa 5:** Desafíos Diarios (semilla determinista, bloqueo anti-abuso, racha diaria, compartir).
+- [ ] **Etapa 6:** Logros desbloqueables, historial de partidas y estadísticas ampliadas.
+- [ ] **Etapa 7:** Modos restantes (Tres en raya futbolero, Mayor o menor, Armá el once, Adiviná el escudo).
 
 ---
 
 ## 🌐 Cómo Actualizar tu Repositorio en GitHub
 
 1. Ingresá a tu repositorio: [**github.com/alejoezequiel99/trivia-futbol**](https://github.com/alejoezequiel99/trivia-futbol).
-2. Hacé clic en el botón **Add file** > **Upload files**.
+2. Hacé clic en **Add file** > **Upload files**.
 3. Arrastrá los archivos que están en tu carpeta del Escritorio (`Master-Futbol-Trivia`):
    - `index.html`
    - `README.md`
 4. En el campo de commit escribe:  
-   `feat: Actualización a Master Fútbol Trivia Pro con comodines, monedas y vitrina`
+   `feat: Etapa 5 - Desafío Diario con semilla determinista, racha consecutiva y resultado compartible`
 5. Hacé clic en **Commit changes**.
-6. En un minuto tu versión en [**alejoezequiel99.github.io/trivia-futbol**](https://alejoezequiel99.github.io/trivia-futbol/) se actualizará automáticamente con todo el juego nuevo.
 
 ---
 
