@@ -1,401 +1,1938 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="es" class="dark">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Trivia Gol - El juego definitivo de trivia de fútbol con ligas del mundo, fútbol argentino, ascenso, comodines, monedas y museo de coleccionables.">
-  <meta name="theme-color" content="#080d1a">
-  <title>Trivia Gol | Edición Ligas, Ascenso y Coleccionables</title>
+  <title>Master Fútbol Trivia | El Desafío Definitivo</title>
+  
+  <!-- Meta SEO y PWA -->
+  <meta name="description" content="Master Fútbol Trivia: Juego interactivo con ligas del mundo, fútbol argentino, ascenso, comodines en vivo, monedas FutCoins y vitrina de coleccionables.">
+  <meta name="theme-color" content="#070B14">
 
-  <!-- Google Fonts: Outfit & Plus Jakarta Sans -->
+  <!-- Google Fonts: Outfit (Titulares deportivos) y Plus Jakarta Sans (UI limpia) -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@500;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
-  <!-- Hoja de estilos -->
-  <link rel="stylesheet" href="style.css">
+  <!-- FontAwesome 6 para Iconografía deportiva y de interfaz -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+  <!-- Tailwind CSS por CDN con configuración personalizada -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            dark: {
+              950: '#070B14',
+              900: '#0B1120',
+              850: '#10182B',
+              800: '#15213B',
+              700: '#1E2F52',
+              600: '#2A3F6D',
+            },
+            pitch: {
+              DEFAULT: '#10B981',
+              dark: '#059669',
+              light: '#34D399',
+              glow: 'rgba(16, 185, 129, 0.35)',
+            },
+            gold: {
+              DEFAULT: '#F59E0B',
+              dark: '#D97706',
+              light: '#FBBF24',
+              glow: 'rgba(245, 158, 11, 0.4)',
+            }
+          },
+          fontFamily: {
+            sans: ['Plus Jakarta Sans', 'sans-serif'],
+            display: ['Outfit', 'sans-serif'],
+          },
+          animation: {
+            'pulse-fast': 'pulse 1s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+            'bounce-subtle': 'bounceSubtle 2s ease-in-out infinite',
+            'coin-spin': 'coinSpin 4s linear infinite',
+            'glow-gold': 'glowGold 2s ease-in-out infinite alternate',
+          },
+          keyframes: {
+            bounceSubtle: {
+              '0%, 100%': { transform: 'translateY(0)' },
+              '50%': { transform: 'translateY(-6px)' }
+            },
+            coinSpin: {
+              '0%': { transform: 'rotateY(0deg)' },
+              '100%': { transform: 'rotateY(360deg)' }
+            },
+            glowGold: {
+              '0%': { boxShadow: '0 0 15px rgba(245, 158, 11, 0.2)' },
+              '100%': { boxShadow: '0 0 30px rgba(245, 158, 11, 0.6)' }
+            }
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    /* Estilos complementarios y animaciones de videojuegos */
+    body {
+      background-color: #070B14;
+      background-image: 
+        radial-gradient(circle at 15% 15%, rgba(16, 185, 129, 0.07) 0%, transparent 45%),
+        radial-gradient(circle at 85% 85%, rgba(245, 158, 11, 0.06) 0%, transparent 45%),
+        linear-gradient(180deg, #070B14 0%, #0B1120 100%);
+      color: #F8FAFC;
+    }
+
+    /* Scrollbar personalizada estilizada */
+    ::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #0B1120;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #1E2F52;
+      border-radius: 9999px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #10B981;
+    }
+
+    /* Efecto tarjeta FUT holográfica */
+    .fut-card-legend {
+      background: linear-gradient(135deg, #182236 0%, #2A1F0D 50%, #3B280A 100%);
+      border: 2px solid #F59E0B;
+      box-shadow: 0 0 20px rgba(245, 158, 11, 0.25);
+    }
+    .fut-card-gold {
+      background: linear-gradient(135deg, #172138 0%, #241D12 100%);
+      border: 1px solid #FBBF24;
+    }
+    .fut-card-silver {
+      background: linear-gradient(135deg, #152037 0%, #1E2838 100%);
+      border: 1px solid #94A3B8;
+    }
+    .fut-card-bronze {
+      background: linear-gradient(135deg, #171E2E 0%, #241A15 100%);
+      border: 1px solid #B45309;
+    }
+
+    /* Resplandor al responder */
+    .btn-option-correct {
+      background: rgba(16, 185, 129, 0.2) !important;
+      border-color: #10B981 !important;
+      color: #FFFFFF !important;
+      box-shadow: 0 0 20px rgba(16, 185, 129, 0.45);
+    }
+    .btn-option-wrong {
+      background: rgba(239, 68, 68, 0.2) !important;
+      border-color: #EF4444 !important;
+      box-shadow: 0 0 20px rgba(239, 68, 68, 0.45);
+      animation: shake 0.4s ease-in-out;
+    }
+
+    @keyframes shake {
+      0%, 100% { transform: translateX(0); }
+      25% { transform: translateX(-6px); }
+      75% { transform: translateX(6px); }
+    }
+  </style>
 </head>
-<body>
-  <!-- Contenedor Principal de la Aplicación -->
-  <div class="app-wrapper">
-    
-    <!-- Barra Superior Global (Header) con Monedero y Accesos -->
-    <header class="top-nav">
-      <div class="brand" id="brand-logo" role="button" title="Ir al Menú Principal">
-        <span class="brand-icon">⚽</span>
-        <span class="brand-name">Trivia<span class="text-accent">Gol</span></span>
-      </div>
+<body class="min-h-screen flex flex-col font-sans selection:bg-pitch selection:text-dark-950">
 
-      <div class="top-actions">
-        <!-- Monedero del Jugador con animación de ganancia -->
-        <div class="coins-pill" id="coins-pill" title="Tus Monedas disponibles para usar comodines">
-          <span class="coin-icon">🪙</span>
-          <span id="player-coins" class="coin-count">100</span>
-          <span id="coin-floating-indicator" class="coin-floating-indicator">+15</span>
+  <!-- ========================================================================= -->
+  <!-- TOAST / NOTIFICACIONES FLOTANTES (Comodines, Monedas, Desbloqueos) -->
+  <!-- ========================================================================= -->
+  <div id="toast-container" class="fixed top-5 right-5 z-50 flex flex-col gap-2 pointer-events-none"></div>
+
+  <!-- ========================================================================= -->
+  <!-- HEADER GLOBAL: LOGO, MONEDAS, RACHA, AUDIO Y ACCESO A VITRINA -->
+  <!-- ========================================================================= -->
+  <header class="sticky top-0 z-40 bg-dark-950/85 backdrop-blur-md border-b border-dark-700/80 px-4 lg:px-8 py-3.5 transition-all">
+    <div class="max-w-6xl mx-auto flex items-center justify-between gap-3">
+      
+      <!-- Brand Logo -->
+      <button onclick="app.navigate('home')" class="flex items-center gap-2.5 group text-left focus:outline-none">
+        <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-pitch-dark to-pitch flex items-center justify-center shadow-lg shadow-pitch/20 group-hover:scale-105 transition-transform">
+          <i class="fa-solid fa-futbol text-dark-950 text-xl group-hover:rotate-180 transition-transform duration-500"></i>
+        </div>
+        <div>
+          <span class="font-display font-extrabold text-xl tracking-tight text-white block leading-none">
+            Master<span class="text-pitch">Fútbol</span>
+          </span>
+          <span class="text-[10px] uppercase font-bold tracking-widest text-gold block mt-0.5">
+            Trivia Pro Edition
+          </span>
+        </div>
+      </button>
+
+      <!-- Status Bar / Acciones -->
+      <div class="flex items-center gap-2 sm:gap-3">
+        
+        <!-- Indicador de Racha Activa -->
+        <div class="hidden sm:flex items-center gap-1.5 bg-dark-850 border border-dark-700/80 px-3 py-1.5 rounded-full" title="Racha de aciertos seguidos">
+          <i class="fa-solid fa-fire text-amber-500 animate-pulse"></i>
+          <span class="text-xs font-bold text-slate-300">Racha:</span>
+          <span id="header-streak-count" class="text-xs font-extrabold text-white">0</span>
         </div>
 
-        <!-- Botón para abrir la Vitrina / Museo de Coleccionables -->
-        <button id="btn-open-museum" class="nav-btn museum-btn" title="Ver mi Vitrina y Colección">
-          <span class="nav-icon">🏆</span>
-          <span class="nav-text">Vitrina</span>
-          <span id="museum-count-badge" class="count-badge">0/22</span>
+        <!-- Monedero FutCoins -->
+        <div class="flex items-center gap-2 bg-gradient-to-r from-amber-950/50 to-dark-850 border border-gold/40 px-3 py-1.5 rounded-full shadow-sm shadow-gold/10" title="Tus FutCoins disponibles">
+          <i class="fa-solid fa-coins text-gold text-sm animate-coin-spin"></i>
+          <span id="header-coins-count" class="font-display font-black text-sm text-gold tracking-tight">200</span>
+          <span class="text-[10px] font-bold text-amber-200/70 hidden md:inline">FutCoins</span>
+        </div>
+
+        <!-- Botón a Vitrina / Club -->
+        <button onclick="app.navigate('showcase')" class="flex items-center gap-1.5 bg-dark-850 hover:bg-dark-800 border border-dark-700 hover:border-gold/50 px-3 py-1.5 rounded-full text-slate-200 hover:text-gold transition-all text-xs font-bold shadow-sm" title="Ver mi Vitrina y Colección">
+          <i class="fa-solid fa-trophy text-gold text-xs"></i>
+          <span class="hidden sm:inline">Vitrina</span>
+          <span id="header-showcase-badge" class="bg-pitch/20 text-pitch border border-pitch/30 text-[10px] px-1.5 py-0.2 rounded-full font-extrabold ml-0.5">0/22</span>
         </button>
 
         <!-- Botón de Audio Mute/Unmute -->
-        <button id="sound-toggle-btn" class="icon-btn" title="Activar/Silenciar Efectos de Sonido" aria-label="Control de sonido">
-          <span id="sound-icon">🔊</span>
+        <button id="btn-audio-toggle" onclick="app.toggleSound()" class="w-9 h-9 rounded-full bg-dark-850 hover:bg-dark-800 border border-dark-700 hover:border-pitch/50 text-slate-300 hover:text-pitch flex items-center justify-center transition-all text-sm" title="Efectos de sonido (Web Audio API)">
+          <i id="audio-icon" class="fa-solid fa-volume-high"></i>
+        </button>
+
+      </div>
+    </div>
+  </header>
+
+  <!-- ========================================================================= -->
+  <!-- CONTENEDOR PRINCIPAL DE PANTALLAS (SPA) -->
+  <!-- ========================================================================= -->
+  <main class="flex-1 max-w-6xl w-full mx-auto p-4 sm:p-6 lg:p-8 flex flex-col justify-center">
+
+    <!-- --------------------------------------------------------------------- -->
+    <!-- PANTALLA 1: MENÚ PRINCIPAL (HOME) -->
+    <!-- --------------------------------------------------------------------- -->
+    <section id="screen-home" class="screen-view active space-y-8 animate-fade-in">
+      
+      <!-- Banner Hero Estilo Videojuego Deportivo -->
+      <div class="relative overflow-hidden rounded-3xl bg-gradient-to-br from-dark-850 via-dark-900 to-dark-950 border border-dark-700/80 p-6 sm:p-10 shadow-2xl shadow-pitch/5">
+        <div class="absolute -right-10 -bottom-10 w-72 h-72 bg-pitch/10 rounded-full blur-3xl pointer-events-none"></div>
+        <div class="absolute top-0 right-1/4 w-40 h-40 bg-gold/10 rounded-full blur-2xl pointer-events-none"></div>
+
+        <div class="relative z-10 max-w-2xl space-y-5">
+          <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-pitch/10 border border-pitch/30 text-pitch text-xs font-extrabold uppercase tracking-wider">
+            <span class="w-2 h-2 rounded-full bg-pitch animate-ping"></span>
+            Temporada Oficial 2024
+          </div>
+
+          <h1 class="font-display font-black text-3xl sm:text-5xl text-white tracking-tight leading-none">
+            Demuestra que sabes de verdad sobre <span class="text-transparent bg-clip-text bg-gradient-to-r from-pitch via-pitch-light to-gold">Fútbol</span>.
+          </h1>
+
+          <p class="text-slate-400 text-sm sm:text-base leading-relaxed">
+            Preguntas capciosas, datos insólitos y el rigor de los grandes debates futboleros. Supera rachas, usa comodines en vivo y colecciona <strong>camisetas legendarias, trofeos de liga y cartas Ultimate Team</strong>.
+          </p>
+
+          <div class="flex flex-wrap items-center gap-3 pt-2">
+            <button onclick="app.navigate('categories')" class="px-7 py-3.5 rounded-xl bg-gradient-to-r from-pitch to-pitch-dark text-dark-950 font-display font-black text-base tracking-wide flex items-center gap-2.5 shadow-lg shadow-pitch/25 hover:shadow-pitch/40 hover:scale-[1.02] active:scale-[0.98] transition-all">
+              <i class="fa-solid fa-play"></i>
+              <span>JUGAR TRIVIA</span>
+            </button>
+            <button onclick="app.navigate('showcase')" class="px-6 py-3.5 rounded-xl bg-dark-800 hover:bg-dark-700 border border-dark-600 text-white font-bold text-sm flex items-center gap-2 hover:border-gold/50 transition-all">
+              <i class="fa-solid fa-trophy text-gold"></i>
+              <span>Mi Vitrina / Club</span>
+            </button>
+            <button onclick="app.openStatsModal()" class="px-4 py-3.5 rounded-xl bg-dark-850 hover:bg-dark-800 border border-dark-700 text-slate-300 hover:text-white font-bold text-sm transition-all" title="Ver mis estadísticas">
+              <i class="fa-solid fa-chart-simple"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Barra de Resumen Rápido de Estadísticas -->
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4">
+        <div class="bg-dark-850/80 border border-dark-700/80 rounded-2xl p-4 flex items-center gap-3.5 shadow-sm">
+          <div class="w-11 h-11 rounded-xl bg-pitch/10 border border-pitch/20 flex items-center justify-center text-pitch text-lg">
+            <i class="fa-solid fa-bullseye"></i>
+          </div>
+          <div>
+            <span class="block text-xs font-bold text-slate-400 uppercase tracking-wider">Aciertos</span>
+            <span id="stat-card-accuracy" class="font-display font-black text-xl text-white">0%</span>
+          </div>
+        </div>
+
+        <div class="bg-dark-850/80 border border-dark-700/80 rounded-2xl p-4 flex items-center gap-3.5 shadow-sm">
+          <div class="w-11 h-11 rounded-xl bg-amber-500/10 border border-amber-500/20 flex items-center justify-center text-amber-500 text-lg">
+            <i class="fa-solid fa-fire"></i>
+          </div>
+          <div>
+            <span class="block text-xs font-bold text-slate-400 uppercase tracking-wider">Mejor Racha</span>
+            <span id="stat-card-best-streak" class="font-display font-black text-xl text-white">0</span>
+          </div>
+        </div>
+
+        <div class="bg-dark-850/80 border border-dark-700/80 rounded-2xl p-4 flex items-center gap-3.5 shadow-sm">
+          <div class="w-11 h-11 rounded-xl bg-gold/10 border border-gold/20 flex items-center justify-center text-gold text-lg">
+            <i class="fa-solid fa-gem"></i>
+          </div>
+          <div>
+            <span class="block text-xs font-bold text-slate-400 uppercase tracking-wider">Coleccionables</span>
+            <span id="stat-card-collectibles" class="font-display font-black text-xl text-white">0 / 22</span>
+          </div>
+        </div>
+
+        <div class="bg-dark-850/80 border border-dark-700/80 rounded-2xl p-4 flex items-center gap-3.5 shadow-sm">
+          <div class="w-11 h-11 rounded-xl bg-blue-500/10 border border-blue-500/20 flex items-center justify-center text-blue-400 text-lg">
+            <i class="fa-solid fa-clipboard-question"></i>
+          </div>
+          <div>
+            <span class="block text-xs font-bold text-slate-400 uppercase tracking-wider">Respondidas</span>
+            <span id="stat-card-total-answered" class="font-display font-black text-xl text-white">0</span>
+          </div>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- --------------------------------------------------------------------- -->
+    <!-- PANTALLA 2: SELECTOR DE CATEGORÍAS / LIGAS -->
+    <!-- --------------------------------------------------------------------- -->
+    <section id="screen-categories" class="screen-view hidden space-y-6">
+      
+      <!-- Encabezado de Categorías -->
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-dark-700/80 pb-4">
+        <div>
+          <button onclick="app.navigate('home')" class="text-xs font-bold text-pitch hover:underline flex items-center gap-1.5 mb-1">
+            <i class="fa-solid fa-arrow-left"></i> Volver al Menú Principal
+          </button>
+          <h2 class="font-display font-black text-2xl sm:text-3xl text-white tracking-tight">Elige tu Liga o Sector</h2>
+        </div>
+        <p class="text-xs sm:text-sm text-slate-400 max-w-sm">
+          Cada sector cuenta con preguntas desafiantes diseñadas para verdaderos conocedores.
+        </p>
+      </div>
+
+      <!-- Grilla Interactiva de 5 Ligas / Sectores -->
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5">
+        
+        <!-- Categoría 1: Fútbol Mundial -->
+        <div onclick="app.startQuiz('mundial')" class="group cursor-pointer rounded-2xl bg-gradient-to-b from-dark-850 to-dark-900 border border-dark-700 hover:border-pitch p-5 flex flex-col justify-between hover:shadow-xl hover:shadow-pitch/10 transition-all duration-300">
+          <div class="space-y-3">
+            <div class="flex items-center justify-between">
+              <span class="w-12 h-12 rounded-xl bg-blue-500/10 border border-blue-500/20 flex items-center justify-center text-blue-400 text-2xl group-hover:scale-110 transition-transform">
+                <i class="fa-solid fa-earth-americas"></i>
+              </span>
+              <span class="text-[10px] font-extrabold uppercase px-2.5 py-1 rounded-full bg-blue-500/20 text-blue-300 border border-blue-500/30">Global</span>
+            </div>
+            <h3 class="font-display font-black text-xl text-white group-hover:text-pitch transition-colors">Fútbol Mundial</h3>
+            <p class="text-slate-400 text-xs sm:text-sm leading-relaxed">
+              Mundiales, Champions League, Balones de Oro, récords insólitos y leyendas del fútbol universal.
+            </p>
+          </div>
+          <div class="pt-4 mt-4 border-t border-dark-700/60 flex items-center justify-between text-xs font-bold text-pitch">
+            <span>Iniciar Partida</span>
+            <i class="fa-solid fa-arrow-right group-hover:translate-x-1.5 transition-transform"></i>
+          </div>
+        </div>
+
+        <!-- Categoría 2: Fútbol Argentino -->
+        <div onclick="app.startQuiz('argentino')" class="group cursor-pointer rounded-2xl bg-gradient-to-b from-dark-850 to-dark-900 border border-dark-700 hover:border-sky-400 p-5 flex flex-col justify-between hover:shadow-xl hover:shadow-sky-400/10 transition-all duration-300">
+          <div class="space-y-3">
+            <div class="flex items-center justify-between">
+              <span class="w-12 h-12 rounded-xl bg-sky-500/10 border border-sky-500/20 flex items-center justify-center text-sky-400 text-2xl group-hover:scale-110 transition-transform">
+                <i class="fa-solid fa-shield-halved"></i>
+              </span>
+              <span class="text-[10px] font-extrabold uppercase px-2.5 py-1 rounded-full bg-sky-500/20 text-sky-300 border border-sky-500/30">Primera AFA</span>
+            </div>
+            <h3 class="font-display font-black text-xl text-white group-hover:text-sky-300 transition-colors">Fútbol Argentino</h3>
+            <p class="text-slate-400 text-xs sm:text-sm leading-relaxed">
+              Superclásicos de época, Copas Libertadores, finales imborrables y anécdotas de vestuario criollo.
+            </p>
+          </div>
+          <div class="pt-4 mt-4 border-t border-dark-700/60 flex items-center justify-between text-xs font-bold text-sky-400">
+            <span>Iniciar Partida</span>
+            <i class="fa-solid fa-arrow-right group-hover:translate-x-1.5 transition-transform"></i>
+          </div>
+        </div>
+
+        <!-- Categoría 3: Fútbol de Ascenso -->
+        <div onclick="app.startQuiz('ascenso')" class="group cursor-pointer rounded-2xl bg-gradient-to-b from-dark-850 to-dark-900 border border-dark-700 hover:border-gold p-5 flex flex-col justify-between hover:shadow-xl hover:shadow-gold/10 transition-all duration-300">
+          <div class="space-y-3">
+            <div class="flex items-center justify-between">
+              <span class="w-12 h-12 rounded-xl bg-gold/10 border border-gold/20 flex items-center justify-center text-gold text-2xl group-hover:scale-110 transition-transform">
+                <i class="fa-solid fa-bullhorn"></i>
+              </span>
+              <span class="text-[10px] font-extrabold uppercase px-2.5 py-1 rounded-full bg-gold/20 text-gold border border-gold/30">El Barro & Mística</span>
+            </div>
+            <h3 class="font-display font-black text-xl text-white group-hover:text-gold transition-colors">Fútbol de Ascenso</h3>
+            <p class="text-slate-400 text-xs sm:text-sm leading-relaxed">
+              Primera Nacional, B Metro, estadios con historia, apodos barriales y hazañas épicas de ascenso.
+            </p>
+          </div>
+          <div class="pt-4 mt-4 border-t border-dark-700/60 flex items-center justify-between text-xs font-bold text-gold">
+            <span>Iniciar Partida</span>
+            <i class="fa-solid fa-arrow-right group-hover:translate-x-1.5 transition-transform"></i>
+          </div>
+        </div>
+
+        <!-- Categoría 4: Premier League -->
+        <div onclick="app.startQuiz('premier')" class="group cursor-pointer rounded-2xl bg-gradient-to-b from-dark-850 to-dark-900 border border-dark-700 hover:border-purple-400 p-5 flex flex-col justify-between hover:shadow-xl hover:shadow-purple-400/10 transition-all duration-300">
+          <div class="space-y-3">
+            <div class="flex items-center justify-between">
+              <span class="w-12 h-12 rounded-xl bg-purple-500/10 border border-purple-500/20 flex items-center justify-center text-purple-400 text-2xl group-hover:scale-110 transition-transform">
+                <i class="fa-solid fa-crown"></i>
+              </span>
+              <span class="text-[10px] font-extrabold uppercase px-2.5 py-1 rounded-full bg-purple-500/20 text-purple-300 border border-purple-500/30">Inglaterra</span>
+            </div>
+            <h3 class="font-display font-black text-xl text-white group-hover:text-purple-300 transition-colors">Premier League</h3>
+            <p class="text-slate-400 text-xs sm:text-sm leading-relaxed">
+              The Big Six, los invencibles de Wenger, récords de Shearer, Agüero 93:20 y dinastías británicas.
+            </p>
+          </div>
+          <div class="pt-4 mt-4 border-t border-dark-700/60 flex items-center justify-between text-xs font-bold text-purple-400">
+            <span>Iniciar Partida</span>
+            <i class="fa-solid fa-arrow-right group-hover:translate-x-1.5 transition-transform"></i>
+          </div>
+        </div>
+
+        <!-- Categoría 5: LaLiga Española -->
+        <div onclick="app.startQuiz('laliga')" class="group cursor-pointer rounded-2xl bg-gradient-to-b from-dark-850 to-dark-900 border border-dark-700 hover:border-red-400 p-5 flex flex-col justify-between hover:shadow-xl hover:shadow-red-400/10 transition-all duration-300">
+          <div class="space-y-3">
+            <div class="flex items-center justify-between">
+              <span class="w-12 h-12 rounded-xl bg-red-500/10 border border-red-500/20 flex items-center justify-center text-red-400 text-2xl group-hover:scale-110 transition-transform">
+                <i class="fa-solid fa-star"></i>
+              </span>
+              <span class="text-[10px] font-extrabold uppercase px-2.5 py-1 rounded-full bg-red-500/20 text-red-300 border border-red-500/30">España</span>
+            </div>
+            <h3 class="font-display font-black text-xl text-white group-hover:text-red-300 transition-colors">LaLiga Española</h3>
+            <p class="text-slate-400 text-xs sm:text-sm leading-relaxed">
+              El Clásico Madrid-Barça, Pichichis históricos, el invencible Athletic de Bilbao y anécdotas de época.
+            </p>
+          </div>
+          <div class="pt-4 mt-4 border-t border-dark-700/60 flex items-center justify-between text-xs font-bold text-red-400">
+            <span>Iniciar Partida</span>
+            <i class="fa-solid fa-arrow-right group-hover:translate-x-1.5 transition-transform"></i>
+          </div>
+        </div>
+
+        <!-- Modo Aleatorio / Desafío Total -->
+        <div onclick="app.startQuiz('mix')" class="group cursor-pointer rounded-2xl bg-gradient-to-b from-pitch/10 to-dark-900 border border-pitch/40 hover:border-pitch p-5 flex flex-col justify-between hover:shadow-xl hover:shadow-pitch/15 transition-all duration-300">
+          <div class="space-y-3">
+            <div class="flex items-center justify-between">
+              <span class="w-12 h-12 rounded-xl bg-pitch/20 border border-pitch/30 flex items-center justify-center text-pitch text-2xl group-hover:rotate-12 transition-transform">
+                <i class="fa-solid fa-shuffle"></i>
+              </span>
+              <span class="text-[10px] font-extrabold uppercase px-2.5 py-1 rounded-full bg-pitch/20 text-pitch border border-pitch/30">Modo Experto</span>
+            </div>
+            <h3 class="font-display font-black text-xl text-white group-hover:text-pitch transition-colors">SuperMix Fútbol Total</h3>
+            <p class="text-slate-400 text-xs sm:text-sm leading-relaxed">
+              Preguntas combinadas de todas las categorías con máxima bonificación de FutCoins por acierto.
+            </p>
+          </div>
+          <div class="pt-4 mt-4 border-t border-dark-700/60 flex items-center justify-between text-xs font-bold text-pitch">
+            <span>Jugar Modo Mixto</span>
+            <i class="fa-solid fa-arrow-right group-hover:translate-x-1.5 transition-transform"></i>
+          </div>
+        </div>
+
+      </div>
+
+    </section>
+
+    <!-- --------------------------------------------------------------------- -->
+    <!-- PANTALLA 3: EL JUEGO (TRIVIA INTERACTIVA) -->
+    <!-- --------------------------------------------------------------------- -->
+    <section id="screen-game" class="screen-view hidden space-y-4 max-w-3xl mx-auto w-full">
+      
+      <!-- Barra Superior de Juego: Categoría, Racha y Salir -->
+      <div class="flex items-center justify-between gap-3 bg-dark-850/90 border border-dark-700/80 rounded-2xl px-4 py-2.5">
+        <div class="flex items-center gap-2">
+          <button onclick="app.exitQuizConfirm()" class="text-slate-400 hover:text-red-400 text-xs font-bold flex items-center gap-1.5 transition-colors" title="Abandonar partida">
+            <i class="fa-solid fa-door-open"></i> Salir
+          </button>
+          <span class="text-dark-600">|</span>
+          <span id="quiz-category-badge" class="text-xs font-extrabold uppercase tracking-wider text-pitch bg-pitch/10 px-2.5 py-0.5 rounded-full border border-pitch/20">
+            Fútbol Mundial
+          </span>
+        </div>
+
+        <div class="flex items-center gap-3">
+          <div class="flex items-center gap-1.5 text-xs font-extrabold text-amber-400">
+            <i class="fa-solid fa-fire text-amber-500 animate-bounce"></i>
+            <span>Racha: <strong id="quiz-streak-value" class="text-white">0</strong></span>
+          </div>
+          <span class="text-xs font-bold text-slate-400" id="quiz-question-counter">1/10</span>
+        </div>
+      </div>
+
+      <!-- Barra de Comodines en Vivo (Lifelines Toolbar) -->
+      <div class="bg-dark-900/95 border border-dark-700/90 rounded-2xl p-2.5 flex items-center justify-between gap-2 shadow-sm overflow-x-auto">
+        <span class="text-[11px] font-extrabold uppercase tracking-widest text-slate-400 ml-1 hidden sm:inline">Comodines:</span>
+        
+        <div class="flex items-center gap-2 w-full sm:w-auto justify-between sm:justify-end">
+          
+          <!-- 1. Comodín 50/50 -->
+          <button id="btn-lifeline-5050" onclick="app.useLifeline('5050')" class="flex-1 sm:flex-initial flex items-center justify-center gap-1.5 bg-dark-800 hover:bg-dark-750 disabled:opacity-40 disabled:cursor-not-allowed border border-dark-600 hover:border-gold/60 px-2.5 py-1.5 rounded-xl text-xs font-bold text-slate-200 transition-all shadow-sm" title="Descarta 2 opciones incorrectas (50 FutCoins)">
+            <i class="fa-solid fa-divide text-amber-400 text-xs"></i>
+            <span>50/50</span>
+            <span class="text-[10px] text-gold font-extrabold bg-gold/10 px-1 rounded border border-gold/20">50🪙</span>
+          </button>
+
+          <!-- 2. Pista del DT -->
+          <button id="btn-lifeline-hint" onclick="app.useLifeline('hint')" class="flex-1 sm:flex-initial flex items-center justify-center gap-1.5 bg-dark-800 hover:bg-dark-750 disabled:opacity-40 disabled:cursor-not-allowed border border-dark-600 hover:border-pitch/60 px-2.5 py-1.5 rounded-xl text-xs font-bold text-slate-200 transition-all shadow-sm" title="Pista táctica del Director Técnico (75 FutCoins)">
+            <i class="fa-solid fa-lightbulb text-pitch text-xs"></i>
+            <span>Pista DT</span>
+            <span class="text-[10px] text-pitch font-extrabold bg-pitch/10 px-1 rounded border border-pitch/20">75🪙</span>
+          </button>
+
+          <!-- 3. VAR / Cambio de Pregunta -->
+          <button id="btn-lifeline-var" onclick="app.useLifeline('var')" class="flex-1 sm:flex-initial flex items-center justify-center gap-1.5 bg-dark-800 hover:bg-dark-750 disabled:opacity-40 disabled:cursor-not-allowed border border-dark-600 hover:border-blue-400/60 px-2.5 py-1.5 rounded-xl text-xs font-bold text-slate-200 transition-all shadow-sm" title="Cambia la pregunta actual mediante revisión de VAR (100 FutCoins)">
+            <i class="fa-solid fa-video text-blue-400 text-xs"></i>
+            <span>VAR</span>
+            <span class="text-[10px] text-blue-300 font-extrabold bg-blue-500/10 px-1 rounded border border-blue-500/20">100🪙</span>
+          </button>
+
+          <!-- 4. Saltear y Validar -->
+          <button id="btn-lifeline-pass" onclick="app.useLifeline('pass')" class="flex-1 sm:flex-initial flex items-center justify-center gap-1.5 bg-dark-800 hover:bg-dark-750 disabled:opacity-40 disabled:cursor-not-allowed border border-dark-600 hover:border-purple-400/60 px-2.5 py-1.5 rounded-xl text-xs font-bold text-slate-200 transition-all shadow-sm" title="Pase de gol: valida la pregunta como acertada para mantener racha (150 FutCoins)">
+            <i class="fa-solid fa-forward-step text-purple-400 text-xs"></i>
+            <span>Pase Gol</span>
+            <span class="text-[10px] text-purple-300 font-extrabold bg-purple-500/10 px-1 rounded border border-purple-500/20">150🪙</span>
+          </button>
+
+        </div>
+      </div>
+
+      <!-- Temporizador de 20 Segundos y Barra de Progreso -->
+      <div class="bg-dark-850/80 border border-dark-700/80 rounded-2xl p-3 space-y-2">
+        <div class="flex items-center justify-between text-xs font-bold">
+          <span class="text-slate-400 flex items-center gap-1.5">
+            <i class="fa-regular fa-clock text-slate-300"></i> Tiempo restante:
+          </span>
+          <span id="quiz-timer-text" class="font-display font-black text-sm text-pitch">20s</span>
+        </div>
+        <div class="w-full bg-dark-950 h-2.5 rounded-full overflow-hidden p-0.5 border border-dark-700">
+          <div id="quiz-timer-bar" class="h-full bg-pitch rounded-full transition-all duration-200 ease-linear" style="width: 100%;"></div>
+        </div>
+      </div>
+
+      <!-- Tooltip / Caja de Pista del DT (Si se activa el comodín) -->
+      <div id="quiz-hint-box" class="hidden bg-gradient-to-r from-pitch/15 to-dark-850 border border-pitch/40 rounded-2xl p-3.5 flex items-start gap-3 animate-fade-in">
+        <i class="fa-solid fa-chalkboard-user text-pitch text-xl mt-0.5"></i>
+        <div>
+          <span class="text-[11px] font-extrabold text-pitch uppercase tracking-wider block">Pista del DT:</span>
+          <p id="quiz-hint-text" class="text-xs sm:text-sm text-slate-200 leading-snug"></p>
+        </div>
+      </div>
+
+      <!-- Tarjeta de la Pregunta -->
+      <div class="bg-gradient-to-b from-dark-850 to-dark-900 border border-dark-700/90 rounded-3xl p-6 sm:p-8 shadow-xl relative overflow-hidden">
+        
+        <!-- Badge de Dificultad / Capciosa -->
+        <div class="flex items-center justify-between gap-2 mb-4">
+          <span class="text-[11px] font-extrabold uppercase px-3 py-1 rounded-full bg-dark-750 border border-dark-600 text-slate-300 tracking-wider">
+            Nivel Competitivo
+          </span>
+          <span id="quiz-tricky-badge" class="hidden text-[11px] font-extrabold uppercase px-3 py-1 rounded-full bg-purple-500/20 text-purple-300 border border-purple-500/40 animate-pulse flex items-center gap-1.5">
+            <i class="fa-solid fa-brain"></i> Pregunta Capciosa
+          </span>
+        </div>
+
+        <h3 id="quiz-question-text" class="font-display font-bold text-lg sm:text-2xl text-white leading-snug">
+          Cargando pregunta...
+        </h3>
+      </div>
+
+      <!-- Opciones de Respuesta (4 Botones) -->
+      <div id="quiz-options-grid" class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+        <!-- Generados dinámicamente -->
+      </div>
+
+      <!-- Tarjeta de Feedback Educativo e Inmediato -->
+      <div id="quiz-feedback-card" class="hidden rounded-2xl p-4 sm:p-5 border transition-all animate-fade-in">
+        <div class="flex items-start gap-3">
+          <div id="quiz-feedback-icon-box" class="w-10 h-10 rounded-xl flex items-center justify-center text-xl shrink-0 mt-0.5"></div>
+          <div class="space-y-1.5 flex-1">
+            <div class="flex items-center justify-between">
+              <h4 id="quiz-feedback-title" class="font-display font-black text-base sm:text-lg"></h4>
+              <span id="quiz-feedback-reward" class="text-xs font-extrabold text-gold"></span>
+            </div>
+            <p id="quiz-feedback-explanation" class="text-xs sm:text-sm text-slate-300 leading-relaxed"></p>
+          </div>
+        </div>
+
+        <div class="mt-4 pt-3 border-t border-dark-700/60 flex justify-end">
+          <button id="btn-next-question" onclick="app.nextQuestion()" class="px-5 py-2.5 rounded-xl bg-pitch hover:bg-pitch-dark text-dark-950 font-display font-extrabold text-sm flex items-center gap-2 shadow-md transition-all">
+            <span>Siguiente Pregunta</span>
+            <i class="fa-solid fa-arrow-right"></i>
+          </button>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- --------------------------------------------------------------------- -->
+    <!-- PANTALLA 4: MI VITRINA / CLUB (COLECCIONABLES) -->
+    <!-- --------------------------------------------------------------------- -->
+    <section id="screen-showcase" class="screen-view hidden space-y-6">
+      
+      <!-- Encabezado de la Vitrina -->
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-dark-700/80 pb-4">
+        <div>
+          <button onclick="app.navigate('home')" class="text-xs font-bold text-pitch hover:underline flex items-center gap-1.5 mb-1">
+            <i class="fa-solid fa-arrow-left"></i> Volver al Menú Principal
+          </button>
+          <div class="flex items-center gap-3">
+            <h2 class="font-display font-black text-2xl sm:text-3xl text-white tracking-tight">Mi Vitrina y Club</h2>
+            <span id="showcase-counter-badge" class="px-3 py-1 rounded-full bg-gold/15 text-gold border border-gold/30 text-xs font-extrabold">0 / 22 Conseguidos</span>
+          </div>
+        </div>
+        <p class="text-xs sm:text-sm text-slate-400 max-w-sm">
+          Desbloquea camisetas legendarias, trofeos de liga y cartas Ultimate Team al ganar partidas y mantener rachas.
+        </p>
+      </div>
+
+      <!-- Pestañas de la Vitrina -->
+      <div class="flex items-center gap-2 overflow-x-auto pb-2 border-b border-dark-700/60">
+        <button onclick="app.filterShowcase('all')" class="tab-btn active px-4 py-2 rounded-xl text-xs font-extrabold bg-pitch text-dark-950 transition-all whitespace-nowrap" data-tab="all">
+          <i class="fa-solid fa-shapes mr-1.5"></i> Todos (22)
+        </button>
+        <button onclick="app.filterShowcase('jerseys')" class="tab-btn px-4 py-2 rounded-xl text-xs font-extrabold bg-dark-850 hover:bg-dark-800 text-slate-300 hover:text-white border border-dark-700 transition-all whitespace-nowrap" data-tab="jerseys">
+          <i class="fa-solid fa-shirt mr-1.5 text-blue-400"></i> Camisetas (8)
+        </button>
+        <button onclick="app.filterShowcase('trophies')" class="tab-btn px-4 py-2 rounded-xl text-xs font-extrabold bg-dark-850 hover:bg-dark-800 text-slate-300 hover:text-white border border-dark-700 transition-all whitespace-nowrap" data-tab="trophies">
+          <i class="fa-solid fa-trophy mr-1.5 text-gold"></i> Trofeos (6)
+        </button>
+        <button onclick="app.filterShowcase('cards')" class="tab-btn px-4 py-2 rounded-xl text-xs font-extrabold bg-dark-850 hover:bg-dark-800 text-slate-300 hover:text-white border border-dark-700 transition-all whitespace-nowrap" data-tab="cards">
+          <i class="fa-solid fa-id-card mr-1.5 text-purple-400"></i> Cartas Ultimate (8)
         </button>
       </div>
-    </header>
 
-    <main class="main-container">
+      <!-- Grilla de Coleccionables -->
+      <div id="showcase-items-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+        <!-- Renderizado dinámicamente con JavaScript -->
+      </div>
 
-      <!-- ============================================== -->
-      <!-- PANTALLA 1: INICIO Y SELECTOR DE SECTORES / LIGAS -->
-      <!-- ============================================== -->
-      <section id="screen-home" class="screen active">
-        <!-- Hero Card -->
-        <div class="hero-card">
-          <div class="hero-badge-container">
-            <span class="pill-badge">🎮 Edición Pro 2024</span>
-          </div>
-          <h1 class="hero-title">El Gran Desafío del <span class="gradient-text">Fútbol</span></h1>
-          <p class="hero-desc">
-            Preguntas difíciles, trampas capciosas y pura mística futbolera.
-            Ganá monedas, usá comodines y coleccioná <strong>camisetas clásicas, trofeos y cromos de leyendas</strong>.
-          </p>
+    </section>
 
-          <!-- Estadísticas Rápidas del Jugador -->
-          <div class="quick-stats">
-            <div class="stat-box">
-              <span class="stat-value" id="home-total-levels">0 / 75</span>
-              <span class="stat-label">Niveles Totales</span>
-            </div>
-            <div class="stat-box">
-              <span class="stat-value" id="home-unlocked-items">0 / 22</span>
-              <span class="stat-label">Coleccionables</span>
-            </div>
-            <div class="stat-box">
-              <span class="stat-value" id="home-total-coins">100</span>
-              <span class="stat-label">🪙 Monedas</span>
-            </div>
-          </div>
+  </main>
+
+  <!-- ========================================================================= -->
+  <!-- MODAL DE ESTADÍSTICAS DEL JUGADOR -->
+  <!-- ========================================================================= -->
+  <div id="modal-stats" class="fixed inset-0 z-50 bg-dark-950/80 backdrop-blur-sm hidden flex items-center justify-center p-4">
+    <div class="bg-gradient-to-b from-dark-850 to-dark-900 border border-dark-700 rounded-3xl p-6 sm:p-8 max-w-md w-full shadow-2xl space-y-6">
+      <div class="flex items-center justify-between border-b border-dark-700 pb-3">
+        <h3 class="font-display font-black text-xl text-white flex items-center gap-2">
+          <i class="fa-solid fa-chart-pie text-pitch"></i> Estadísticas de Carrera
+        </h3>
+        <button onclick="app.closeStatsModal()" class="text-slate-400 hover:text-white">
+          <i class="fa-solid fa-xmark text-lg"></i>
+        </button>
+      </div>
+
+      <div class="space-y-3">
+        <div class="flex items-center justify-between py-2 border-b border-dark-700/50 text-sm">
+          <span class="text-slate-400">Preguntas respondidas:</span>
+          <strong id="modal-stat-total" class="text-white font-bold">0</strong>
         </div>
-
-        <!-- Título de Selección de Sectores -->
-        <div class="section-heading">
-          <h2>Elegí tu Sector o Liga</h2>
-          <p>Cada sector tiene 15 niveles de dificultad progresiva con premios exclusivos</p>
+        <div class="flex items-center justify-between py-2 border-b border-dark-700/50 text-sm">
+          <span class="text-slate-400">Aciertos totales:</span>
+          <strong id="modal-stat-correct" class="text-pitch font-bold">0</strong>
         </div>
-
-        <!-- Grilla de Sectores / Ligas -->
-        <div class="sectors-grid" id="sectors-grid">
-          <!-- 1. Fútbol Mundial -->
-          <div class="sector-card" data-sector="mundial">
-            <div class="sector-card-top">
-              <span class="sector-icon">🌍</span>
-              <span class="badge badge-primary">Clásicos & Mundiales</span>
-            </div>
-            <h3 class="sector-title">Fútbol Mundial</h3>
-            <p class="sector-desc">Copas del Mundo, Champions League, Balones de Oro, mitos universales y preguntas capciosas.</p>
-            <div class="sector-footer">
-              <span class="sector-progress" id="progress-mundial">0/15 Completados</span>
-              <span class="sector-arrow">➔</span>
-            </div>
-          </div>
-
-          <!-- 2. Fútbol Argentino -->
-          <div class="sector-card" data-sector="argentino">
-            <div class="sector-card-top">
-              <span class="sector-icon">🇦🇷</span>
-              <span class="badge badge-primary">Primera División</span>
-            </div>
-            <h3 class="sector-title">Fútbol Argentino</h3>
-            <p class="sector-desc">Superclásicos, Copas AFA, Libertadores inolvidables, anécdotas de vestuario e historia pura.</p>
-            <div class="sector-footer">
-              <span class="sector-progress" id="progress-argentino">0/15 Completados</span>
-              <span class="sector-arrow">➔</span>
-            </div>
-          </div>
-
-          <!-- 3. Fútbol de Ascenso -->
-          <div class="sector-card" data-sector="ascenso">
-            <div class="sector-card-top">
-              <span class="sector-icon">🎺</span>
-              <span class="badge badge-warning">Mística de Cancha</span>
-            </div>
-            <h3 class="sector-title">Fútbol de Ascenso</h3>
-            <p class="sector-desc">El barro, Nacional B, Primera B, apodos de estadios, clubes barriales y hazañas legendarias.</p>
-            <div class="sector-footer">
-              <span class="sector-progress" id="progress-ascenso">0/15 Completados</span>
-              <span class="sector-arrow">➔</span>
-            </div>
-          </div>
-
-          <!-- 4. Premier League -->
-          <div class="sector-card" data-sector="premier">
-            <div class="sector-card-top">
-              <span class="sector-icon">🏴󠁧󠁢󠁥󠁮󠁧󠁿</span>
-              <span class="badge badge-purple">Inglaterra</span>
-            </div>
-            <h3 class="sector-title">Premier League</h3>
-            <p class="sector-desc">The Big Six, los invictos de Wenger, el United de Ferguson, goleadores históricos y sorpresas.</p>
-            <div class="sector-footer">
-              <span class="sector-progress" id="progress-premier">0/15 Completados</span>
-              <span class="sector-arrow">➔</span>
-            </div>
-          </div>
-
-          <!-- 5. LaLiga Española -->
-          <div class="sector-card" data-sector="laliga">
-            <div class="sector-card-top">
-              <span class="sector-icon">🇪🇸</span>
-              <span class="badge badge-accent">España</span>
-            </div>
-            <h3 class="sector-title">LaLiga Española</h3>
-            <p class="sector-desc">El Clásico Real Madrid vs Barcelona, el Cholo en el Atleti, Pichichis legendarios y datos insólitos.</p>
-            <div class="sector-footer">
-              <span class="sector-progress" id="progress-laliga">0/15 Completados</span>
-              <span class="sector-arrow">➔</span>
-            </div>
-          </div>
+        <div class="flex items-center justify-between py-2 border-b border-dark-700/50 text-sm">
+          <span class="text-slate-400">Porcentaje de efectividad:</span>
+          <strong id="modal-stat-percent" class="text-pitch font-bold">0%</strong>
         </div>
-      </section>
-
-      <!-- ============================================== -->
-      <!-- PANTALLA 2: MAPA DE NIVELES DEL SECTOR -->
-      <!-- ============================================== -->
-      <section id="screen-map" class="screen">
-        <div class="map-header">
-          <div class="map-header-left">
-            <button id="btn-map-back-home" class="btn-back" title="Volver al selector de ligas">← Cambiar Sector</button>
-            <div class="sector-active-title-wrap">
-              <span id="map-sector-icon" class="sector-title-icon">⚽</span>
-              <h2 id="map-sector-title" class="section-title">Fútbol Mundial</h2>
-            </div>
-          </div>
-          <div class="map-progress-pill">
-            <span>Superados:</span>
-            <strong id="map-progress-text">0 / 15</strong>
-          </div>
+        <div class="flex items-center justify-between py-2 border-b border-dark-700/50 text-sm">
+          <span class="text-slate-400">Racha actual:</span>
+          <strong id="modal-stat-current-streak" class="text-amber-400 font-bold">0</strong>
         </div>
-
-        <p class="map-subtitle" id="map-subtitle-text">
-          Avanzá nivel a nivel acertando al menos 2 preguntas. ¡Ganarás monedas y desbloquearás camisetas, trofeos y cromos!
-        </p>
-
-        <!-- Leyenda de Dificultades -->
-        <div class="difficulty-legend">
-          <span class="badge badge-easy">🟢 1-5 Principiante</span>
-          <span class="badge badge-medium">🟡 6-10 Calificado</span>
-          <span class="badge badge-hard">🔴 11-15 Experto / Capcioso</span>
+        <div class="flex items-center justify-between py-2 border-b border-dark-700/50 text-sm">
+          <span class="text-slate-400">Récord de mejor racha:</span>
+          <strong id="modal-stat-best-streak" class="text-amber-400 font-bold">0</strong>
         </div>
-
-        <!-- Grilla de 15 Niveles dinámicos -->
-        <div id="levels-grid" class="levels-grid">
-          <!-- Generado desde script.js -->
+        <div class="flex items-center justify-between py-2 border-b border-dark-700/50 text-sm">
+          <span class="text-slate-400">FutCoins acumulados:</span>
+          <strong id="modal-stat-coins" class="text-gold font-bold">200</strong>
         </div>
+      </div>
 
-        <div class="map-footer">
-          <button id="btn-reset-progress" class="btn-link-danger">Reiniciar progreso guardado de este sector</button>
-        </div>
-      </section>
-
-      <!-- ============================================== -->
-      <!-- PANTALLA 3: JUEGO / PREGUNTAS CON COMODINES -->
-      <!-- ============================================== -->
-      <section id="screen-game" class="screen">
-        <!-- Barra de Control del Nivel -->
-        <div class="game-top-bar">
-          <button id="btn-game-exit" class="btn-back" title="Salir al mapa">← Salir</button>
-          <div class="level-indicator">
-            <span id="game-level-badge" class="badge badge-easy">Nivel 1</span>
-            <span id="game-level-title" class="level-title-text">Mundial Qatar 2022</span>
-          </div>
-          <div class="score-pill">
-            <span class="score-icon">⚽</span>
-            <span id="game-score-count">0</span>
-          </div>
-        </div>
-
-        <!-- BARRA DE COMODINES / POWER-UPS -->
-        <div class="powerups-bar">
-          <span class="powerups-title">Comodines:</span>
-          <div class="powerups-list">
-            <!-- 1. Comodín 50/50 -->
-            <button id="powerup-5050" class="powerup-btn" title="Elimina 2 opciones incorrectas">
-              <span class="powerup-icon">💡</span>
-              <span class="powerup-name">50/50</span>
-              <span class="powerup-cost">30 🪙</span>
-            </button>
-            <!-- 2. Cambiar Pregunta -->
-            <button id="powerup-change" class="powerup-btn" title="Cambia a otra pregunta del banco">
-              <span class="powerup-icon">🔄</span>
-              <span class="powerup-name">Cambiar</span>
-              <span class="powerup-cost">40 🪙</span>
-            </button>
-            <!-- 3. Pase de Gol (Saltear) -->
-            <button id="powerup-skip" class="powerup-btn" title="Pase de gol: acierta automáticamente la pregunta">
-              <span class="powerup-icon">⏩</span>
-              <span class="powerup-name">Pase de Gol</span>
-              <span class="powerup-cost">60 🪙</span>
-            </button>
-            <!-- 4. Tiempo Extra -->
-            <button id="powerup-time" class="powerup-btn" title="Agrega +15 segundos al temporizador">
-              <span class="powerup-icon">⏱️</span>
-              <span class="powerup-name">+15s</span>
-              <span class="powerup-cost">25 🪙</span>
-            </button>
-          </div>
-        </div>
-
-        <!-- Temporizador y Barra de Progreso -->
-        <div class="timer-section">
-          <div class="timer-info">
-            <span class="question-tracker" id="game-question-tracker">Pregunta 1 de 3</span>
-            <div class="timer-display" id="timer-display">
-              <span class="timer-icon">⏱️</span>
-              <span id="timer-seconds">30</span>s
-            </div>
-          </div>
-          <div class="progress-bar-bg">
-            <div id="timer-bar" class="progress-bar-fill"></div>
-          </div>
-        </div>
-
-        <!-- Tarjeta de Pregunta -->
-        <div class="question-card">
-          <div class="question-badges-row">
-            <span class="question-category" id="question-category">Categoría</span>
-            <span class="badge badge-tricky hidden" id="question-tricky-badge">🧠 Pregunta Capciosa</span>
-          </div>
-          <h2 class="question-text" id="question-text">Cargando pregunta...</h2>
-        </div>
-
-        <!-- Opciones de Respuesta -->
-        <div class="options-grid" id="options-container">
-          <!-- Generadas dinámicamente -->
-        </div>
-
-        <!-- Banner de Feedback Instantáneo con Explicación de la Trampa -->
-        <div id="feedback-banner" class="feedback-banner hidden">
-          <div class="feedback-content">
-            <div class="feedback-title-row">
-              <span id="feedback-icon" class="feedback-icon">✔</span>
-              <span id="feedback-msg" class="feedback-msg">¡Correcto!</span>
-            </div>
-            <p id="feedback-explanation" class="feedback-explanation"></p>
-          </div>
-        </div>
-      </section>
-
-      <!-- ============================================== -->
-      <!-- PANTALLA 4: RESULTADOS Y PREMIOS -->
-      <!-- ============================================== -->
-      <section id="screen-results" class="screen">
-        <div class="results-card">
-          <div id="results-icon-container" class="results-icon">🏆</div>
-          <span id="results-status-badge" class="badge badge-success">¡Nivel Superado!</span>
-          
-          <h2 id="results-title" class="results-title">¡Gran Partido!</h2>
-          <p id="results-message" class="results-message">
-            Demostraste categoría de primera división.
-          </p>
-
-          <!-- Ganancias en Monedas -->
-          <div class="coins-earned-box">
-            <span class="coins-earned-label">Recompensa obtenida:</span>
-            <div class="coins-earned-val">
-              <span class="coin-icon">🪙</span>
-              <span id="results-coins-won">+75 Monedas</span>
-            </div>
-          </div>
-
-          <!-- RECOMPENSA DE COLECCIONABLE DESBLOQUEADO (SI CORRESPONDE) -->
-          <div id="results-unlock-box" class="collectible-unlock-box hidden">
-            <span class="unlock-banner-tag">🎉 ¡NUEVO COLECCIONABLE DESBLOQUEADO!</span>
-            <div class="unlock-item-card">
-              <span class="unlock-item-icon" id="unlock-item-icon">👕</span>
-              <div class="unlock-item-details">
-                <span class="unlock-item-type" id="unlock-item-type">Camiseta Histórica</span>
-                <h4 class="unlock-item-name" id="unlock-item-name">Argentina 1986</h4>
-                <p class="unlock-item-desc" id="unlock-item-desc">La mítica azul de Diego ante Inglaterra.</p>
-              </div>
-            </div>
-          </div>
-
-          <!-- Resumen de Estadísticas del Nivel -->
-          <div class="results-stats">
-            <div class="result-stat-item">
-              <span class="stat-number" id="results-score">3 / 3</span>
-              <span class="stat-label">Aciertos</span>
-            </div>
-            <div class="result-stat-item">
-              <span class="stat-number" id="results-accuracy">100%</span>
-              <span class="stat-label">Efectividad</span>
-            </div>
-            <div class="result-stat-item">
-              <span class="stat-number" id="results-sector-tag">Mundial</span>
-              <span class="stat-label">Sector</span>
-            </div>
-          </div>
-
-          <!-- Botones de Acción Posterior -->
-          <div class="results-actions">
-            <button id="btn-next-level" class="btn btn-primary btn-glow">
-              <span>Siguiente Nivel</span>
-              <span>➔</span>
-            </button>
-            <button id="btn-retry-level" class="btn btn-secondary">
-              <span>🔄 Reintentar Nivel</span>
-            </button>
-            <button id="btn-results-map" class="btn btn-ghost">
-              <span>🗺️ Ir al Mapa de este Sector</span>
-            </button>
-          </div>
-        </div>
-      </section>
-
-      <!-- ============================================== -->
-      <!-- PANTALLA 5: VITRINA / MUSEO DE COLECCIONABLES -->
-      <!-- ============================================== -->
-      <section id="screen-museum" class="screen">
-        <div class="museum-header">
-          <button id="btn-museum-back" class="btn-back">← Volver</button>
-          <div class="museum-title-group">
-            <h2 class="section-title">🏛️ Museo de Recompensas</h2>
-            <span class="museum-counter" id="museum-header-counter">Coleccionados: 0 / 22</span>
-          </div>
-        </div>
-
-        <p class="museum-subtitle">
-          Superá niveles en los distintos sectores para desbloquear camisetas legendarias, copas históricas y cartas de los mejores jugadores de todos los tiempos.
-        </p>
-
-        <!-- Filtros de Coleccionables -->
-        <div class="museum-tabs">
-          <button class="tab-btn active" data-tab="all">Todos (22)</button>
-          <button class="tab-btn" data-tab="jerseys">👕 Camisetas (8)</button>
-          <button class="tab-btn" data-tab="trophies">🏆 Trofeos (6)</button>
-          <button class="tab-btn" data-tab="cards">🃏 Cromos de Leyenda (8)</button>
-        </div>
-
-        <!-- Grilla de Coleccionables -->
-        <div class="collectibles-grid" id="collectibles-grid">
-          <!-- Generado dinámicamente con JavaScript -->
-        </div>
-      </section>
-
-    </main>
-
-    <!-- Pie de página minimalista -->
-    <footer class="app-footer">
-      <p>Trivia Gol Edición Coleccionista | Listo para desplegar en <strong>GitHub Pages</strong></p>
-    </footer>
-
+      <div class="pt-2 flex flex-col gap-2">
+        <button onclick="app.closeStatsModal()" class="w-full py-2.5 rounded-xl bg-dark-800 hover:bg-dark-750 border border-dark-600 text-white font-bold text-sm">
+          Cerrar
+        </button>
+        <button onclick="app.resetProgressConfirm()" class="text-xs text-red-400/80 hover:text-red-400 underline py-1 text-center">
+          Reiniciar todo el progreso y datos guardados
+        </button>
+      </div>
+    </div>
   </div>
 
-  <!-- Script con la lógica del juego y economía -->
-  <script src="script.js"></script>
+  <!-- ========================================================================= -->
+  <!-- FOOTER -->
+  <!-- ========================================================================= -->
+  <footer class="mt-auto border-t border-dark-700/60 py-4 px-4 text-center text-xs text-slate-500">
+    <p>Master Fútbol Trivia Pro • Diseñado para desplegar en <strong>GitHub Pages</strong> • Hecho con pasión futbolera</p>
+  </footer>
+
+  <!-- ========================================================================= -->
+  <!-- JAVASCRIPT: LÓGICA COMPLETA DE LA APLICACIÓN -->
+  <!-- ========================================================================= -->
+  <script>
+    /**
+     * =========================================================================
+     * MASTER FÚTBOL TRIVIA - MOTOR DEL JUEGO Y ARQUITECTURA SPA
+     * =========================================================================
+     */
+
+    // --- 1. BANCO DE PREGUNTAS (25 PREGUNTAS DE ALTA CALIDAD Y CAPCIOSAS) ---
+    const QUESTIONS_DB = [
+      // CATEGORÍA: FÚTBOL MUNDIAL
+      {
+        id: 'm1',
+        category: 'mundial',
+        categoryLabel: 'Fútbol Mundial',
+        question: '¿En qué país nació realmente la leyenda internacional Alfredo Di Stéfano?',
+        options: ['España', 'Argentina', 'Colombia', 'Italia'],
+        correct: 1,
+        isTricky: true,
+        hint: 'Brilló como figura histórica en el Real Madrid y jugó para la selección española, pero sus raíces están en el Río de la Plata.',
+        explanation: '¡Muchos creen que era español! Alfredo Di Stéfano nació en el barrio de Barracas, Buenos Aires (Argentina) en 1926. Debutó en River Plate y jugó en Millonarios de Colombia antes de viajar a Europa.'
+      },
+      {
+        id: 'm2',
+        category: 'mundial',
+        categoryLabel: 'Fútbol Mundial',
+        question: '¿Cuántas Copas del Mundo ganó Diego Armando Maradona como futbolista?',
+        options: ['2 Copas (1978 y 1986)', '1 Copa (México 1986)', '3 Copas', 'Ninguna'],
+        correct: 1,
+        isTricky: true,
+        hint: 'Cuidado con la confusión: en 1978 César Luis Menotti lo dejó afuera de la lista definitiva en el último corte.',
+        explanation: 'Diego ganó exactamente 1 Mundial como jugador: México 1986. En Argentina 1978 no formó parte del plantel definitivo por decisión técnica y en Italia 1990 fue subcampeón.'
+      },
+      {
+        id: 'm3',
+        category: 'mundial',
+        categoryLabel: 'Fútbol Mundial',
+        question: '¿Quién tiene el récord imbatido de más goles anotados en una SOLA edición de la Copa del Mundo?',
+        options: ['Pelé (Brasil)', 'Gerd Müller (Alemania)', 'Just Fontaine (Francia)', 'Ronaldo Nazário (Brasil)'],
+        correct: 2,
+        isTricky: false,
+        hint: 'Ocurrió en el Mundial de Suecia 1958 y marcó la increíble cifra de 13 goles en 6 partidos.',
+        explanation: 'El francés Just Fontaine convirtió 13 goles en Suecia 1958, una marca insuperable hasta hoy en una misma edición mundialista.'
+      },
+      {
+        id: 'm4',
+        category: 'mundial',
+        categoryLabel: 'Fútbol Mundial',
+        question: '¿Cuál fue la única selección en disputar la final del Mundial 2006 sin haber recibido ningún gol de jugada en contra durante todo el torneo?',
+        options: ['Francia', 'Alemania', 'Italia', 'Portugal'],
+        correct: 2,
+        isTricky: true,
+        hint: 'El arquero fue Gianluigi Buffon y solo le convirtieron dos goles en todo el certamen: un autogol y un penal.',
+        explanation: 'La Italia campeona de 2006 solo recibió 2 goles en los 7 partidos: un gol en contra insólito de Cristian Zaccardo ante EE.UU. y el penal de Zidane en la final.'
+      },
+      {
+        id: 'm5',
+        category: 'mundial',
+        categoryLabel: 'Fútbol Mundial',
+        question: '¿Quién anotó el gol decisivo en el minuto 116 de la final de Sudáfrica 2010 para darle a España su primera Copa del Mundo?',
+        options: ['David Villa', 'Xavi Hernández', 'Andrés Iniesta', 'Fernando Torres'],
+        correct: 2,
+        isTricky: false,
+        hint: 'En su festejo se quitó la camiseta para mostrar una dedicatoria eterna a su amigo Dani Jarque.',
+        explanation: 'Andrés Iniesta remató de volea en el tiempo suplementario contra los Países Bajos en Johannesburgo para estampar el 1-0 histórico de España.'
+      },
+
+      // CATEGORÍA: FÚTBOL ARGENTINO
+      {
+        id: 'a1',
+        category: 'argentino',
+        categoryLabel: 'Fútbol Argentino',
+        question: '¿Cuál fue el PRIMER club del fútbol argentino en consagrarse Campeón del Mundo (Copa Intercontinental)?',
+        options: ['Boca Juniors', 'Independiente', 'Racing Club', 'Estudiantes de La Plata'],
+        correct: 2,
+        isTricky: true,
+        hint: 'Ocurrió en 1967 en un épico tercer partido desempate en el Estadio Centenario de Montevideo.',
+        explanation: 'Racing Club fue el primer campeón intercontinental argentino en 1967 al derrotar 1-0 al Celtic escocés con el legendario zurdazo del Chango Cárdenas.'
+      },
+      {
+        id: 'a2',
+        category: 'argentino',
+        categoryLabel: 'Fútbol Argentino',
+        question: '¿Cuántos partidos oficiales jugó Lionel Messi en la Primera División del fútbol argentino con Newell\'s Old Boys?',
+        options: ['5 partidos', '12 partidos', '0 partidos', '1 partido de debut'],
+        correct: 2,
+        isTricky: true,
+        hint: 'Muchos recuerdan su infancia en Rosario, pero emigró a La Masía del Barcelona antes de cumplir los 14 años.',
+        explanation: '¡Cero! Lionel Messi jamás jugó en la Primera División de Newell\'s. Solo jugó en las divisiones infantiles de la Lepra antes de mudarse a Barcelona en el año 2000.'
+      },
+      {
+        id: 'a3',
+        category: 'argentino',
+        categoryLabel: 'Fútbol Argentino',
+        question: '¿Quién dirigió técnicamente a River Plate en el campo de juego durante la final de vuelta en Madrid ante Boca (2018)?',
+        options: ['Marcelo Gallardo', 'Matías Biscay', 'Hernán Buján', 'Leonardo Ponzio'],
+        correct: 1,
+        isTricky: true,
+        hint: 'El Muñeco Gallardo estaba suspendido por la CONMEBOL y vio el partido desde un palco del Santiago Bernabéu.',
+        explanation: 'Debido a la suspensión impuesta a Gallardo en semifinales ante Gremio, su histórico ayudante de campo Matías Biscay firmó la planilla y dirigió la final en Madrid.'
+      },
+      {
+        id: 'a4',
+        category: 'argentino',
+        categoryLabel: 'Fútbol Argentino',
+        question: '¿Qué club ostenta el récord histórico inigualado de haber ganado CUATRO Copas Libertadores consecutivas?',
+        options: ['Boca Juniors', 'Estudiantes de La Plata', 'Independiente', 'Santos de Brasil'],
+        correct: 2,
+        isTricky: false,
+        hint: 'Por este y otros títulos continentales este club es apodado el "Rey de Copas".',
+        explanation: 'Independiente conquistó la Copa Libertadores de manera consecutiva en 1972, 1973, 1974 y 1975, una proeza irrepetible en el fútbol sudamericano.'
+      },
+      {
+        id: 'a5',
+        category: 'argentino',
+        categoryLabel: 'Fútbol Argentino',
+        question: '¿En qué cancha se disputó el famoso partido desempate del Torneo Apertura 2006 entre Boca Juniors y Estudiantes de La Plata?',
+        options: ['Estadio Monumental', 'Estadio José Amalfitani (Vélez)', 'Estadio Presidente Perón (Racing)', 'El Gasómetro (San Lorenzo)'],
+        correct: 1,
+        isTricky: false,
+        hint: 'Es el estadio ubicado en el barrio de Liniers, donde Estudiantes ganó 2-1 con goles de Sosa y Pavone.',
+        explanation: 'El recordado desempate del Apertura 2006 se jugó en la cancha de Vélez Sarsfield, consagrando campeón al Estudiantes de Diego Simeone.'
+      },
+
+      // CATEGORÍA: FÚTBOL DE ASCENSO
+      {
+        id: 'asc1',
+        category: 'ascenso',
+        categoryLabel: 'Fútbol de Ascenso',
+        question: '¿Qué club del fútbol argentino tiene su estadio popularmente conocido como "República de Mataderos"?',
+        options: ['All Boys', 'Nueva Chicago', 'Almirante Brown', 'Deportivo Morón'],
+        correct: 1,
+        isTricky: false,
+        hint: 'Los colores del club son verde y negro, en el corazón del barrio de la carne.',
+        explanation: 'Nueva Chicago tiene su histórico estadio en el barrio porteño de Mataderos, conocido por su hinchada como la República de Mataderos.'
+      },
+      {
+        id: 'asc2',
+        category: 'ascenso',
+        categoryLabel: 'Fútbol de Ascenso',
+        question: '¿En qué mítico club del ascenso rosarino brilló Tomás "El Trinche" Carlovich, a quien Maradona consideró el mejor?',
+        options: ['Tiro Federal', 'Central Córdoba de Rosario', 'Argentino de Rosario', 'Newell\'s Old Boys'],
+        correct: 1,
+        isTricky: true,
+        hint: 'El estadio se llama Gabino Sosa y el club tiene camiseta azul y roja.',
+        explanation: 'El Trinche Carlovich es la leyenda máxima de Central Córdoba de Rosario en los torneos de Primera B y Primera C, célebre por su doble caño y elegancia bohemia.'
+      },
+      {
+        id: 'asc3',
+        category: 'ascenso',
+        categoryLabel: 'Fútbol de Ascenso',
+        question: '¿En qué barrio porteño nació originalmente Chacarita Juniors antes de trasladar su estadio a Villa Maipú (San Martín)?',
+        options: ['Colegiales', 'Villa Crespo', 'Chacarita', 'Paternal'],
+        correct: 1,
+        isTricky: true,
+        hint: 'Fue el histórico vecino y clásico rival de Atlanta en la misma calle Humboldt.',
+        explanation: 'Aunque su nombre alude al barrio vecino, Chacarita nació y tuvo su cancha en Villa Crespo hasta la década de 1940, cuando se mudó a San Martín tras una orden de desalojo.'
+      },
+      {
+        id: 'asc4',
+        category: 'ascenso',
+        categoryLabel: 'Fútbol de Ascenso',
+        question: '¿Qué club del ascenso argentino fue fundado por trabajadores ferroviarios en 1904 y es célebre por su estadio en Caballito?',
+        options: ['Ferro Carril Oeste', 'Ferrocarril Midland', 'Talleres de Remedios de Escalada', 'Quilmes AC'],
+        correct: 0,
+        isTricky: false,
+        hint: 'El verdolaga de Caballito, dos veces campeón de Primera División en los 80 con Carlos Timoteo Griguol.',
+        explanation: 'Ferro Carril Oeste fue fundado en 1904 en el corazón de la Ciudad de Buenos Aires por empleados del Ferrocarril del Oeste.'
+      },
+      {
+        id: 'asc5',
+        category: 'ascenso',
+        categoryLabel: 'Fútbol de Ascenso',
+        question: '¿Qué equipo del ascenso logró la histórica hazaña de consagrarse campeón de la Primera División argentina en 1969?',
+        options: ['Platense', 'Chacarita Juniors', 'Quilmes', 'Nueva Chicago'],
+        correct: 1,
+        isTricky: false,
+        hint: 'Venció 4-1 a River Plate en la final del Metropolitano 1969 en la cancha de Racing.',
+        explanation: 'Chacarita Juniors conquistó el Campeonato Metropolitano 1969 goleando a River Plate en la final, uno de los hitos más gloriosos de un club tradicional del ascenso.'
+      },
+
+      // CATEGORÍA: PREMIER LEAGUE
+      {
+        id: 'pl1',
+        category: 'premier',
+        categoryLabel: 'Premier League',
+        question: '¿Qué equipo inglés logró la gesta de ganar la Premier League 2003/04 de manera INVICTA (sin perder ningún partido)?',
+        options: ['Manchester United', 'Chelsea', 'Arsenal', 'Liverpool'],
+        correct: 2,
+        isTricky: false,
+        hint: 'Eran conocidos como "The Invincibles" dirigidos por el francés Arsène Wenger.',
+        explanation: 'El Arsenal de 2003/04 terminó la Premier League con 26 victorias y 12 empates (0 derrotas), recibiendo un trofeo especial de oro único en la historia.'
+      },
+      {
+        id: 'pl2',
+        category: 'premier',
+        categoryLabel: 'Premier League',
+        question: '¿Quién es el máximo goleador histórico de la Premier League desde su creación oficial en 1992?',
+        options: ['Wayne Rooney', 'Alan Shearer', 'Harry Kane', 'Thierry Henry'],
+        correct: 1,
+        isTricky: false,
+        hint: 'Convirtió 260 goles jugando para Blackburn Rovers y Newcastle United.',
+        explanation: 'Alan Shearer lidera la tabla histórica con 260 goles en la era Premier League, seguido por Harry Kane con 213 y Wayne Rooney con 208.'
+      },
+      {
+        id: 'pl3',
+        category: 'premier',
+        categoryLabel: 'Premier League',
+        question: '¿Qué club inglés ganó DOS Copas de Europa (Champions) consecutivas pero solo UNA liga inglesa en toda su historia?',
+        options: ['Aston Villa', 'Leeds United', 'Nottingham Forest', 'Everton'],
+        correct: 2,
+        isTricky: true,
+        hint: 'Dirigidos por el genial y polémico Brian Clough a fines de los años 70.',
+        explanation: 'Nottingham Forest logró la epopeya de coronarse bicampeón de Europa en 1979 y 1980 habiendo ganado una única liga de Primera División inglesa en 1978.'
+      },
+      {
+        id: 'pl4',
+        category: 'premier',
+        categoryLabel: 'Premier League',
+        question: '¿Qué futbolista anotó el legendario gol en el minuto 93:20 para darle al Manchester City su primera Premier en 2012?',
+        options: ['Edin Džeko', 'Sergio "Kun" Agüero', 'Carlos Tévez', 'David Silva'],
+        correct: 1,
+        isTricky: false,
+        hint: 'El famoso grito del relator Martin Tyler: "¡AGÜEROOOOOOO!".',
+        explanation: 'Sergio Agüero anotó en el último minuto de descuento ante QPR para romper una sequía de 44 años sin títulos de liga para el Manchester City.'
+      },
+      {
+        id: 'pl5',
+        category: 'premier',
+        categoryLabel: 'Premier League',
+        question: '¿Qué modesto club conmovió al mundo entero al ganar la Premier League 2015/16 pagando 5000 a 1 en las apuestas?',
+        options: ['Burnley', 'Watford', 'Leicester City', 'Southampton'],
+        correct: 2,
+        isTricky: false,
+        hint: 'Dirigidos por Claudio Ranieri, con Jamie Vardy, Riyad Mahrez y N\'Golo Kanté como figuras.',
+        explanation: 'Leicester City protagonizó una de las mayores hazañas del deporte moderno al ganar la Premier League 2015/16 contra todos los gigantes económicos.'
+      },
+
+      // CATEGORÍA: LALIGA ESPAÑOLA
+      {
+        id: 'll1',
+        category: 'laliga',
+        categoryLabel: 'LaLiga Española',
+        question: '¿Quién es el futbolista con MÁS títulos de LaLiga española ganados en la historia como jugador?',
+        options: ['Lionel Messi', 'Paco Gento', 'Andrés Iniesta', 'Sergio Ramos'],
+        correct: 1,
+        isTricky: true,
+        hint: 'Lionel Messi ganó 10 ligas con el Barcelona, pero este extremo del Real Madrid de los años 50 y 60 conquistó 12.',
+        explanation: 'Paco Gento ostenta el récord absoluto de 12 Ligas españolas con el Real Madrid. Messi quedó segundo en la tabla histórica con 10 consagraciones.'
+      },
+      {
+        id: 'll2',
+        category: 'laliga',
+        categoryLabel: 'LaLiga Española',
+        question: '¿En qué club español debutó oficialmente Diego Armando Maradona en LaLiga en 1982?',
+        options: ['Sevilla FC', 'Atlético de Madrid', 'FC Barcelona', 'Valencia CF'],
+        correct: 2,
+        isTricky: false,
+        hint: 'Disputó dos temporadas allí antes de marcharse a revolucionar el Napoli en Italia.',
+        explanation: 'Maradona debutó en LaLiga en septiembre de 1982 con el FC Barcelona contra el Valencia. En Sevilla jugó años después (1992-1993).'
+      },
+      {
+        id: 'll3',
+        category: 'laliga',
+        categoryLabel: 'LaLiga Española',
+        question: '¿Qué club español tiene la estricta tradición histórica de jugar únicamente con futbolistas nacidos o formados en el País Vasco?',
+        options: ['Real Sociedad', 'Deportivo Alavés', 'Athletic Club de Bilbao', 'Osasuna'],
+        correct: 2,
+        isTricky: false,
+        hint: 'Los "Leones de San Mamés", uno de los únicos 3 clubes que jamás descendió de Primera División.',
+        explanation: 'El Athletic Club de Bilbao mantiene una filosofía única en el fútbol mundial: solo alinea a jugadores originarios o formados en la región vasca.'
+      },
+      {
+        id: 'll4',
+        category: 'laliga',
+        categoryLabel: 'LaLiga Española',
+        question: '¿Cuántos goles convirtió Lionel Messi en la temporada de liga 2011/12 para fijar el récord histórico del Trofeo Pichichi?',
+        options: ['40 goles', '50 goles', '46 goles', '38 goles'],
+        correct: 1,
+        isTricky: true,
+        hint: 'Muchos recuerdan los 91 goles anuales en 2012, pero en esa temporada de liga exacta anotó medio centenar.',
+        explanation: 'Lionel Messi marcó 50 goles en 37 partidos en LaLiga 2011/12 con el FC Barcelona, una marca récord que jamás ha podido ser igualada en España.'
+      },
+      {
+        id: 'll5',
+        category: 'laliga',
+        categoryLabel: 'LaLiga Española',
+        question: '¿Quién cabeceó el agónico gol en el minuto 92:48 en Lisboa para forzar el alargue en la final de Champions 2014 entre Madrid y Atleti?',
+        options: ['Cristiano Ronaldo', 'Sergio Ramos', 'Gareth Bale', 'Karim Benzema'],
+        correct: 1,
+        isTricky: false,
+        hint: 'El famoso cabezazo que abrió el camino a "La Décima" madridista.',
+        explanation: 'Sergio Ramos conectó un centro de Luka Modrić a los 92:48 para empatar el clásico madrileño y llevar el partido a una prórroga histórica.'
+      }
+    ];
+
+    // --- 2. CATÁLOGO DE COLECCIONABLES (22 ARTÍCULOS EN 3 CATEGORÍAS) ---
+    const COLLECTIBLES_DB = [
+      // CAMISETAS HISTÓRICAS
+      {
+        id: 'j1',
+        type: 'jerseys',
+        typeLabel: 'Camiseta Histórica',
+        name: 'Argentina 1986',
+        subtitle: 'La Azul de Diego ante Inglaterra',
+        rarity: 'Leyenda',
+        rarityClass: 'fut-card-legend',
+        icon: 'fa-shirt',
+        iconColor: 'text-sky-400',
+        requirementText: 'Alcanza una racha de 3 aciertos',
+        condition: (s) => s.bestStreak >= 3
+      },
+      {
+        id: 'j2',
+        type: 'jerseys',
+        typeLabel: 'Camiseta Histórica',
+        name: 'Arsenal 2003-04',
+        subtitle: 'The Invincibles de Wenger',
+        rarity: 'Oro',
+        rarityClass: 'fut-card-gold',
+        icon: 'fa-shirt',
+        iconColor: 'text-red-500',
+        requirementText: 'Responde 5 preguntas de Premier League',
+        condition: (s) => (s.categoryAnswered.premier || 0) >= 5
+      },
+      {
+        id: 'j3',
+        type: 'jerseys',
+        typeLabel: 'Camiseta Histórica',
+        name: 'Boca Juniors 2000',
+        subtitle: 'Campeón Intercontinental en Tokio',
+        rarity: 'Oro',
+        rarityClass: 'fut-card-gold',
+        icon: 'fa-shirt',
+        iconColor: 'text-amber-400',
+        requirementText: 'Responde 5 preguntas de Fútbol Argentino',
+        condition: (s) => (s.categoryAnswered.argentino || 0) >= 5
+      },
+      {
+        id: 'j4',
+        type: 'jerseys',
+        typeLabel: 'Camiseta Histórica',
+        name: 'River Plate 1996',
+        subtitle: 'Bicampeón con Enzo Francescoli',
+        rarity: 'Oro',
+        rarityClass: 'fut-card-gold',
+        icon: 'fa-shirt',
+        iconColor: 'text-red-400',
+        requirementText: 'Acumula más de 300 FutCoins',
+        condition: (s) => s.coins >= 300
+      },
+      {
+        id: 'j5',
+        type: 'jerseys',
+        typeLabel: 'Camiseta Histórica',
+        name: 'Barcelona 2011',
+        subtitle: 'El Sextete y el baile en Wembley',
+        rarity: 'Leyenda',
+        rarityClass: 'fut-card-legend',
+        icon: 'fa-shirt',
+        iconColor: 'text-blue-500',
+        requirementText: 'Alcanza una racha de 6 aciertos',
+        condition: (s) => s.bestStreak >= 6
+      },
+      {
+        id: 'j6',
+        type: 'jerseys',
+        typeLabel: 'Camiseta Histórica',
+        name: 'Nueva Chicago 2001',
+        subtitle: 'El Verdinegro del Ascenso en Córdoba',
+        rarity: 'Plata',
+        rarityClass: 'fut-card-silver',
+        icon: 'fa-shirt',
+        iconColor: 'text-emerald-500',
+        requirementText: 'Responde 3 preguntas de Fútbol de Ascenso',
+        condition: (s) => (s.categoryAnswered.ascenso || 0) >= 3
+      },
+      {
+        id: 'j7',
+        type: 'jerseys',
+        typeLabel: 'Camiseta Histórica',
+        name: 'Chacarita 1969',
+        subtitle: 'El Funebrero Campeón del Metro',
+        rarity: 'Plata',
+        rarityClass: 'fut-card-silver',
+        icon: 'fa-shirt',
+        iconColor: 'text-red-500',
+        requirementText: 'Responde 5 preguntas de Fútbol de Ascenso',
+        condition: (s) => (s.categoryAnswered.ascenso || 0) >= 5
+      },
+      {
+        id: 'j8',
+        type: 'jerseys',
+        typeLabel: 'Camiseta Histórica',
+        name: 'Leicester City 2016',
+        subtitle: 'El Milagro de Ranieri',
+        rarity: 'Oro',
+        rarityClass: 'fut-card-gold',
+        icon: 'fa-shirt',
+        iconColor: 'text-blue-400',
+        requirementText: 'Acumula más de 450 FutCoins',
+        condition: (s) => s.coins >= 450
+      },
+
+      // TROFEOS DE LIGAS Y TORNEOS
+      {
+        id: 't1',
+        type: 'trophies',
+        typeLabel: 'Trofeo Sagrado',
+        name: 'Copa del Mundo FIFA',
+        subtitle: 'El Santo Grial del Fútbol',
+        rarity: 'Leyenda',
+        rarityClass: 'fut-card-legend',
+        icon: 'fa-trophy',
+        iconColor: 'text-gold',
+        requirementText: 'Alcanza una racha de 8 aciertos',
+        condition: (s) => s.bestStreak >= 8
+      },
+      {
+        id: 't2',
+        type: 'trophies',
+        typeLabel: 'Trofeo Sagrado',
+        name: 'UEFA Champions League',
+        subtitle: 'La Orejona de Europa',
+        rarity: 'Leyenda',
+        rarityClass: 'fut-card-legend',
+        icon: 'fa-trophy',
+        iconColor: 'text-slate-200',
+        requirementText: 'Alcanza una racha de 5 aciertos',
+        condition: (s) => s.bestStreak >= 5
+      },
+      {
+        id: 't3',
+        type: 'trophies',
+        typeLabel: 'Trofeo Sagrado',
+        name: 'Copa Libertadores',
+        subtitle: 'La Gloria Eterna Sudamericana',
+        rarity: 'Oro',
+        rarityClass: 'fut-card-gold',
+        icon: 'fa-trophy',
+        iconColor: 'text-amber-500',
+        requirementText: 'Acierta al menos 10 preguntas',
+        condition: (s) => s.totalCorrect >= 10
+      },
+      {
+        id: 't4',
+        type: 'trophies',
+        typeLabel: 'Trofeo Sagrado',
+        name: 'Trofeo Primera B Nacional',
+        subtitle: 'El Pasaje a Primera División',
+        rarity: 'Plata',
+        rarityClass: 'fut-card-silver',
+        icon: 'fa-trophy',
+        iconColor: 'text-emerald-400',
+        requirementText: 'Acierta 4 preguntas de Ascenso',
+        condition: (s) => (s.categoryCorrect.ascenso || 0) >= 4
+      },
+      {
+        id: 't5',
+        type: 'trophies',
+        typeLabel: 'Trofeo Sagrado',
+        name: 'Copa Intercontinental',
+        subtitle: 'El duelo de campeones continentales',
+        rarity: 'Oro',
+        rarityClass: 'fut-card-gold',
+        icon: 'fa-trophy',
+        iconColor: 'text-gold',
+        requirementText: 'Acumula más de 400 FutCoins',
+        condition: (s) => s.coins >= 400
+      },
+      {
+        id: 't6',
+        type: 'trophies',
+        typeLabel: 'Trofeo Sagrado',
+        name: 'Balón de Oro de Honor',
+        subtitle: 'Premio al Máximo Conocedor',
+        rarity: 'Leyenda',
+        rarityClass: 'fut-card-legend',
+        icon: 'fa-medal',
+        iconColor: 'text-yellow-400',
+        requirementText: 'Alcanza una racha de 10 aciertos',
+        condition: (s) => s.bestStreak >= 10
+      },
+
+      // CARTAS ULTIMATE TEAM
+      {
+        id: 'c1',
+        type: 'cards',
+        typeLabel: 'Cromo Ultimate',
+        name: 'Lionel Messi 2022',
+        subtitle: 'Qatar 2022 • OVR 99',
+        rarity: 'Leyenda',
+        rarityClass: 'fut-card-legend',
+        icon: 'fa-id-badge',
+        iconColor: 'text-sky-400',
+        requirementText: 'Alcanza una racha de 7 aciertos',
+        condition: (s) => s.bestStreak >= 7
+      },
+      {
+        id: 'c2',
+        type: 'cards',
+        typeLabel: 'Cromo Ultimate',
+        name: 'Diego Maradona 1986',
+        subtitle: 'México 1986 • OVR 99',
+        rarity: 'Leyenda',
+        rarityClass: 'fut-card-legend',
+        icon: 'fa-id-badge',
+        iconColor: 'text-amber-400',
+        requirementText: 'Acierta al menos 15 preguntas en total',
+        condition: (s) => s.totalCorrect >= 15
+      },
+      {
+        id: 'c3',
+        type: 'cards',
+        typeLabel: 'Cromo Ultimate',
+        name: 'Tomás Carlovich',
+        subtitle: '"El Trinche" • OVR 89 (Mito)',
+        rarity: 'Oro',
+        rarityClass: 'fut-card-gold',
+        icon: 'fa-id-badge',
+        iconColor: 'text-emerald-400',
+        requirementText: 'Acierta 3 preguntas de Fútbol de Ascenso',
+        condition: (s) => (s.categoryCorrect.ascenso || 0) >= 3
+      },
+      {
+        id: 'c4',
+        type: 'cards',
+        typeLabel: 'Cromo Ultimate',
+        name: 'Juan Román Riquelme',
+        subtitle: 'Boca Tokio 2000 • OVR 94',
+        rarity: 'Oro',
+        rarityClass: 'fut-card-gold',
+        icon: 'fa-id-badge',
+        iconColor: 'text-blue-400',
+        requirementText: 'Acierta 4 preguntas de Fútbol Argentino',
+        condition: (s) => (s.categoryCorrect.argentino || 0) >= 4
+      },
+      {
+        id: 'c5',
+        type: 'cards',
+        typeLabel: 'Cromo Ultimate',
+        name: 'Thierry Henry',
+        subtitle: 'Arsenal 2004 • OVR 94',
+        rarity: 'Oro',
+        rarityClass: 'fut-card-gold',
+        icon: 'fa-id-badge',
+        iconColor: 'text-red-400',
+        requirementText: 'Acierta 4 preguntas de Premier League',
+        condition: (s) => (s.categoryCorrect.premier || 0) >= 4
+      },
+      {
+        id: 'c6',
+        type: 'cards',
+        typeLabel: 'Cromo Ultimate',
+        name: 'Alfredo Di Stéfano',
+        subtitle: 'La Saeta Rubia • OVR 96',
+        rarity: 'Leyenda',
+        rarityClass: 'fut-card-legend',
+        icon: 'fa-id-badge',
+        iconColor: 'text-slate-200',
+        requirementText: 'Acierta 4 preguntas de LaLiga Española',
+        condition: (s) => (s.categoryCorrect.laliga || 0) >= 4
+      },
+      {
+        id: 'c7',
+        type: 'cards',
+        typeLabel: 'Cromo Ultimate',
+        name: 'Erling Haaland',
+        subtitle: 'El Androide • OVR 92',
+        rarity: 'Plata',
+        rarityClass: 'fut-card-silver',
+        icon: 'fa-id-badge',
+        iconColor: 'text-cyan-400',
+        requirementText: 'Acierta 3 preguntas de Premier League',
+        condition: (s) => (s.categoryCorrect.premier || 0) >= 3
+      },
+      {
+        id: 'c8',
+        type: 'cards',
+        typeLabel: 'Cromo Ultimate',
+        name: 'Hugo "Mono" Navarro',
+        subtitle: 'Héroe del Ascenso • OVR 84',
+        rarity: 'Bronce',
+        rarityClass: 'fut-card-bronze',
+        icon: 'fa-id-badge',
+        iconColor: 'text-amber-600',
+        requirementText: 'Responde tu primera pregunta de Ascenso',
+        condition: (s) => (s.categoryAnswered.ascenso || 0) >= 1
+      }
+    ];
+
+    // --- 3. GESTOR DE AUDIO SINTETIZADO (Web Audio API - Cero Dependencias) ---
+    class SoundEngine {
+      constructor() {
+        this.ctx = null;
+        this.enabled = true;
+      }
+
+      init() {
+        if (!this.ctx && (window.AudioContext || window.webkitAudioContext)) {
+          const AudioCtx = window.AudioContext || window.webkitAudioContext;
+          this.ctx = new AudioCtx();
+        }
+      }
+
+      play(freq, type, duration, startTime = 0, gainLevel = 0.12) {
+        if (!this.enabled) return;
+        try {
+          this.init();
+          if (!this.ctx) return;
+          if (this.ctx.state === 'suspended') this.ctx.resume();
+
+          const osc = this.ctx.createOscillator();
+          const gain = this.ctx.createGain();
+
+          osc.type = type;
+          osc.frequency.setValueAtTime(freq, this.ctx.currentTime + startTime);
+
+          gain.gain.setValueAtTime(gainLevel, this.ctx.currentTime + startTime);
+          gain.gain.exponentialRampToValueAtTime(0.0001, this.ctx.currentTime + startTime + duration);
+
+          osc.connect(gain);
+          gain.connect(this.ctx.destination);
+
+          osc.start(this.ctx.currentTime + startTime);
+          osc.stop(this.ctx.currentTime + startTime + duration);
+        } catch (e) {
+          // Audio suprimido por navegador hasta clic
+        }
+      }
+
+      click() {
+        this.play(600, 'sine', 0.05, 0, 0.05);
+      }
+
+      correct() {
+        this.play(523.25, 'sine', 0.12, 0);     // Do
+        this.play(659.25, 'triangle', 0.12, 0.08); // Mi
+        this.play(783.99, 'triangle', 0.3, 0.16, 0.2); // Sol
+      }
+
+      wrong() {
+        this.play(260, 'sawtooth', 0.15, 0, 0.1);
+        this.play(196, 'sawtooth', 0.25, 0.12, 0.1);
+      }
+
+      coin() {
+        this.play(987.77, 'sine', 0.08, 0, 0.1);
+        this.play(1318.51, 'sine', 0.2, 0.07, 0.12);
+      }
+
+      unlock() {
+        this.play(440, 'triangle', 0.1, 0);
+        this.play(554.37, 'triangle', 0.1, 0.1);
+        this.play(659.25, 'triangle', 0.1, 0.2);
+        this.play(880, 'sine', 0.4, 0.3, 0.2);
+      }
+    }
+
+    // --- 4. CONTROLADOR PRINCIPAL DE LA APLICACIÓN (STATE & SPA) ---
+    class TriviaApp {
+      constructor() {
+        this.sound = new SoundEngine();
+        this.storageKey = 'master_futbol_trivia_v1';
+        this.loadState();
+
+        // Estado volátil de la partida en curso
+        this.activeCategory = null;
+        this.activeQuestions = [];
+        this.currentIndex = 0;
+        this.timer = 20;
+        this.timerInterval = null;
+        this.isLocked = false;
+        this.lifelinesUsed = {
+          '5050': false,
+          'hint': false,
+          'var': false,
+          'pass': false
+        };
+      }
+
+      // Cargar persistencia desde localStorage
+      loadState() {
+        const defaultState = {
+          coins: 200, // 200 FutCoins iniciales requeridos
+          totalAnswered: 0,
+          totalCorrect: 0,
+          currentStreak: 0,
+          bestStreak: 0,
+          unlockedItems: [],
+          categoryAnswered: {},
+          categoryCorrect: {}
+        };
+
+        try {
+          const saved = localStorage.getItem(this.storageKey);
+          this.state = saved ? { ...defaultState, ...JSON.parse(saved) } : defaultState;
+        } catch (e) {
+          this.state = defaultState;
+        }
+      }
+
+      saveState() {
+        try {
+          localStorage.setItem(this.storageKey, JSON.stringify(this.state));
+        } catch (e) {}
+      }
+
+      init() {
+        this.updateHeaderUI();
+        this.renderShowcase('all');
+        this.navigate('home');
+      }
+
+      // Alternar vistas sin recargar pantalla
+      navigate(screenName) {
+        this.sound.click();
+        const views = document.querySelectorAll('.screen-view');
+        views.forEach(v => v.classList.add('hidden'));
+
+        const target = document.getElementById(`screen-${screenName}`);
+        if (target) {
+          target.classList.remove('hidden');
+        }
+
+        if (screenName === 'home') {
+          this.updateHomeStatsUI();
+        } else if (screenName === 'showcase') {
+          this.renderShowcase();
+        }
+
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
+
+      toggleSound() {
+        this.sound.enabled = !this.sound.enabled;
+        const icon = document.getElementById('audio-icon');
+        if (this.sound.enabled) {
+          icon.className = 'fa-solid fa-volume-high';
+          this.sound.click();
+          this.toast('Sonido activado', 'pitch');
+        } else {
+          icon.className = 'fa-solid fa-volume-xmark';
+          this.toast('Sonido silenciado', 'slate');
+        }
+      }
+
+      // Notificaciones Toast flotantes
+      toast(msg, theme = 'pitch') {
+        const container = document.getElementById('toast-container');
+        const toast = document.createElement('div');
+        
+        let borderClass = 'border-pitch/40 text-pitch';
+        let bgClass = 'bg-dark-900/95';
+        if (theme === 'gold') borderClass = 'border-gold/50 text-gold';
+        if (theme === 'red') borderClass = 'border-red-500/50 text-red-400';
+        if (theme === 'slate') borderClass = 'border-dark-700 text-slate-300';
+
+        toast.className = `border ${borderClass} ${bgClass} px-4 py-2.5 rounded-2xl shadow-xl text-xs font-bold flex items-center gap-2 transform transition-all duration-300 translate-y-2 opacity-0`;
+        toast.innerHTML = `<span>${msg}</span>`;
+
+        container.appendChild(toast);
+        setTimeout(() => toast.classList.remove('translate-y-2', 'opacity-0'), 10);
+
+        setTimeout(() => {
+          toast.classList.add('opacity-0', '-translate-y-2');
+          setTimeout(() => toast.remove(), 300);
+        }, 2800);
+      }
+
+      // Actualizar Header
+      updateHeaderUI() {
+        document.getElementById('header-coins-count').textContent = this.state.coins;
+        document.getElementById('header-streak-count').textContent = this.state.currentStreak;
+        document.getElementById('header-showcase-badge').textContent = `${this.state.unlockedItems.length}/${COLLECTIBLES_DB.length}`;
+      }
+
+      // Actualizar Resumen en Home
+      updateHomeStatsUI() {
+        const accuracy = this.state.totalAnswered > 0 
+          ? Math.round((this.state.totalCorrect / this.state.totalAnswered) * 100) 
+          : 0;
+
+        document.getElementById('stat-card-accuracy').textContent = `${accuracy}%`;
+        document.getElementById('stat-card-best-streak').textContent = this.state.bestStreak;
+        document.getElementById('stat-card-collectibles').textContent = `${this.state.unlockedItems.length} / ${COLLECTIBLES_DB.length}`;
+        document.getElementById('stat-card-total-answered').textContent = this.state.totalAnswered;
+        this.updateHeaderUI();
+      }
+
+      // --- INICIAR PARTIDA DE TRIVIA ---
+      startQuiz(categoryKey) {
+        this.activeCategory = categoryKey;
+        this.sound.click();
+
+        // Filtrar preguntas
+        if (categoryKey === 'mix') {
+          this.activeQuestions = [...QUESTIONS_DB].sort(() => 0.5 - Math.random());
+        } else {
+          this.activeQuestions = QUESTIONS_DB.filter(q => q.category === categoryKey).sort(() => 0.5 - Math.random());
+        }
+
+        if (this.activeQuestions.length === 0) {
+          this.activeQuestions = [...QUESTIONS_DB];
+        }
+
+        this.currentIndex = 0;
+        this.navigate('game');
+        this.loadCurrentQuestion();
+      }
+
+      // Cargar pregunta actual
+      loadCurrentQuestion() {
+        clearInterval(this.timerInterval);
+        this.isLocked = false;
+        this.lifelinesUsed = { '5050': false, 'hint': false, 'var': false, 'pass': false };
+
+        const q = this.activeQuestions[this.currentIndex];
+
+        // UI Header
+        document.getElementById('quiz-category-badge').textContent = q.categoryLabel;
+        document.getElementById('quiz-streak-value').textContent = this.state.currentStreak;
+        document.getElementById('quiz-question-counter').textContent = `${this.currentIndex + 1}/${this.activeQuestions.length}`;
+
+        // Capciosa
+        const trickyBadge = document.getElementById('quiz-tricky-badge');
+        if (q.isTricky) {
+          trickyBadge.classList.remove('hidden');
+        } else {
+          trickyBadge.classList.add('hidden');
+        }
+
+        // Texto Pregunta
+        document.getElementById('quiz-question-text').textContent = q.question;
+
+        // Limpiar Pista y Feedback
+        document.getElementById('quiz-hint-box').classList.add('hidden');
+        document.getElementById('quiz-feedback-card').classList.add('hidden');
+
+        // Botones de Comodines
+        this.updateLifelinesButtonsUI();
+
+        // Opciones A, B, C, D
+        const container = document.getElementById('quiz-options-grid');
+        container.innerHTML = '';
+
+        const letters = ['A', 'B', 'C', 'D'];
+        q.options.forEach((optText, idx) => {
+          const btn = document.createElement('button');
+          btn.className = 'btn-option group flex items-center gap-3 p-3.5 sm:p-4 rounded-2xl bg-dark-850 hover:bg-dark-800 border-2 border-dark-700/80 hover:border-pitch/60 text-left transition-all duration-200';
+          btn.innerHTML = `
+            <span class="w-8 h-8 rounded-xl bg-dark-900 border border-dark-700 flex items-center justify-center font-display font-black text-xs text-pitch group-hover:bg-pitch group-hover:text-dark-950 transition-colors shrink-0">
+              ${letters[idx]}
+            </span>
+            <span class="text-xs sm:text-sm font-semibold text-slate-100 flex-1 leading-snug">
+              ${optText}
+            </span>
+          `;
+          btn.onclick = () => this.handleAnswer(idx, btn);
+          container.appendChild(btn);
+        });
+
+        // Iniciar Temporizador de 20 segundos
+        this.startTimer();
+      }
+
+      // Conteo regresivo de 20 segundos
+      startTimer() {
+        this.timer = 20;
+        const timerText = document.getElementById('quiz-timer-text');
+        const timerBar = document.getElementById('quiz-timer-bar');
+
+        timerText.textContent = `${this.timer}s`;
+        timerText.className = 'font-display font-black text-sm text-pitch';
+        timerBar.style.width = '100%';
+        timerBar.className = 'h-full bg-pitch rounded-full transition-all duration-200 ease-linear';
+
+        this.timerInterval = setInterval(() => {
+          this.timer--;
+          timerText.textContent = `${this.timer}s`;
+          const pct = (this.timer / 20) * 100;
+          timerBar.style.width = `${Math.max(0, pct)}%`;
+
+          if (this.timer <= 5) {
+            timerText.className = 'font-display font-black text-sm text-red-400 animate-pulse';
+            timerBar.className = 'h-full bg-red-500 rounded-full transition-all duration-200 ease-linear';
+          } else if (this.timer <= 10) {
+            timerText.className = 'font-display font-black text-sm text-gold';
+            timerBar.className = 'h-full bg-gold rounded-full transition-all duration-200 ease-linear';
+          }
+
+          if (this.timer <= 0) {
+            clearInterval(this.timerInterval);
+            this.handleTimeout();
+          }
+        }, 1000);
+      }
+
+      // Procesar respuesta del usuario
+      handleAnswer(selectedIndex, clickedBtn) {
+        if (this.isLocked) return;
+        this.isLocked = true;
+        clearInterval(this.timerInterval);
+
+        const q = this.activeQuestions[this.currentIndex];
+        const isCorrect = selectedIndex === q.correct;
+
+        // Registrar estadísticas
+        this.state.totalAnswered++;
+        this.state.categoryAnswered[q.category] = (this.state.categoryAnswered[q.category] || 0) + 1;
+
+        const allButtons = document.querySelectorAll('.btn-option');
+        allButtons.forEach(b => b.classList.add('pointer-events-none'));
+
+        if (isCorrect) {
+          this.sound.correct();
+          clickedBtn.classList.add('btn-option-correct');
+
+          this.state.totalCorrect++;
+          this.state.categoryCorrect[q.category] = (this.state.categoryCorrect[q.category] || 0) + 1;
+          this.state.currentStreak++;
+
+          if (this.state.currentStreak > this.state.bestStreak) {
+            this.state.bestStreak = this.state.currentStreak;
+          }
+
+          // Recompensa de FutCoins: 20 base + bonus de racha
+          const earned = 20 + (this.state.currentStreak * 5);
+          this.state.coins += earned;
+
+          this.showFeedbackCard(true, `¡Golazo! Respuesta Correcta`, `+${earned} FutCoins`, q.explanation);
+        } else {
+          this.sound.wrong();
+          clickedBtn.classList.add('btn-option-wrong');
+          if (allButtons[q.correct]) {
+            allButtons[q.correct].classList.add('btn-option-correct');
+          }
+
+          this.state.currentStreak = 0;
+          this.showFeedbackCard(false, `¡Al palo! No era la opción correcta`, `Racha reiniciada`, q.explanation);
+        }
+
+        this.checkCollectiblesUnlock();
+        this.saveState();
+        this.updateHeaderUI();
+      }
+
+      // Tiempo agotado (20s)
+      handleTimeout() {
+        if (this.isLocked) return;
+        this.isLocked = true;
+        this.sound.wrong();
+
+        const q = this.activeQuestions[this.currentIndex];
+        this.state.totalAnswered++;
+        this.state.categoryAnswered[q.category] = (this.state.categoryAnswered[q.category] || 0) + 1;
+        this.state.currentStreak = 0;
+
+        const allButtons = document.querySelectorAll('.btn-option');
+        allButtons.forEach(b => b.classList.add('pointer-events-none'));
+
+        if (allButtons[q.correct]) {
+          allButtons[q.correct].classList.add('btn-option-correct');
+        }
+
+        this.showFeedbackCard(false, `¡Tiempo cumplido! (20 segundos agotados)`, `Racha reiniciada`, q.explanation);
+        this.saveState();
+        this.updateHeaderUI();
+      }
+
+      // Mostrar Feedback Educativo Inmediato
+      showFeedbackCard(isCorrect, title, rewardText, explanation) {
+        const card = document.getElementById('quiz-feedback-card');
+        const iconBox = document.getElementById('quiz-feedback-icon-box');
+        const titleEl = document.getElementById('quiz-feedback-title');
+        const rewardEl = document.getElementById('quiz-feedback-reward');
+        const explEl = document.getElementById('quiz-feedback-explanation');
+
+        card.classList.remove('hidden');
+
+        if (isCorrect) {
+          card.className = 'rounded-2xl p-4 sm:p-5 border border-pitch/50 bg-pitch/10 transition-all animate-fade-in';
+          iconBox.className = 'w-10 h-10 rounded-xl flex items-center justify-center text-xl shrink-0 mt-0.5 bg-pitch text-dark-950 font-black';
+          iconBox.innerHTML = '<i class="fa-solid fa-check"></i>';
+          titleEl.className = 'font-display font-black text-base sm:text-lg text-pitch';
+        } else {
+          card.className = 'rounded-2xl p-4 sm:p-5 border border-red-500/50 bg-red-500/10 transition-all animate-fade-in';
+          iconBox.className = 'w-10 h-10 rounded-xl flex items-center justify-center text-xl shrink-0 mt-0.5 bg-red-500 text-white font-black';
+          iconBox.innerHTML = '<i class="fa-solid fa-xmark"></i>';
+          titleEl.className = 'font-display font-black text-base sm:text-lg text-red-400';
+        }
+
+        titleEl.textContent = title;
+        rewardEl.textContent = rewardText;
+        explEl.textContent = explanation;
+      }
+
+      // Avanzar a la siguiente pregunta
+      nextQuestion() {
+        this.sound.click();
+        if (this.currentIndex + 1 < this.activeQuestions.length) {
+          this.currentIndex++;
+          this.loadCurrentQuestion();
+        } else {
+          this.sound.unlock();
+          this.toast('¡Completaste toda la serie de preguntas!', 'gold');
+          this.navigate('categories');
+        }
+      }
+
+      // --- SISTEMA DE COMODINES / LIFELINES EN VIVO ---
+      useLifeline(type) {
+        if (this.isLocked) return;
+
+        const costs = {
+          '5050': 50,
+          'hint': 75,
+          'var': 100,
+          'pass': 150
+        };
+
+        const cost = costs[type];
+        if (this.state.coins < cost) {
+          this.sound.wrong();
+          this.toast(`FutCoins insuficientes (${cost} necesarios)`, 'red');
+          return;
+        }
+
+        const q = this.activeQuestions[this.currentIndex];
+
+        // 1. COMODÍN 50/50
+        if (type === '5050') {
+          if (this.lifelinesUsed['5050']) return;
+          this.deductCoins(cost);
+          this.lifelinesUsed['5050'] = true;
+
+          const optionsBtns = document.querySelectorAll('.btn-option');
+          let wrongIndexes = [0, 1, 2, 3].filter(idx => idx !== q.correct);
+          // Mezclar y descartar 2
+          wrongIndexes.sort(() => 0.5 - Math.random());
+          const toDisable = wrongIndexes.slice(0, 2);
+
+          toDisable.forEach(idx => {
+            if (optionsBtns[idx]) {
+              optionsBtns[idx].classList.add('opacity-20', 'pointer-events-none', 'line-through');
+            }
+          });
+
+          this.toast('50/50 aplicado: 2 opciones descartadas', 'gold');
+        }
+
+        // 2. PISTA DEL DT
+        else if (type === 'hint') {
+          if (this.lifelinesUsed['hint']) return;
+          this.deductCoins(cost);
+          this.lifelinesUsed['hint'] = true;
+
+          const hintBox = document.getElementById('quiz-hint-box');
+          document.getElementById('quiz-hint-text').textContent = q.hint || 'Analiza las trampas históricas comunes.';
+          hintBox.classList.remove('hidden');
+          this.toast('Pista táctica del DT revelada', 'pitch');
+        }
+
+        // 3. VAR / CAMBIO DE PREGUNTA
+        else if (type === 'var') {
+          this.deductCoins(cost);
+          // Buscar otra pregunta distinta
+          const other = QUESTIONS_DB.find(candidate => candidate.id !== q.id && (this.activeCategory === 'mix' || candidate.category === q.category));
+          if (other) {
+            this.activeQuestions[this.currentIndex] = other;
+            this.toast('¡El VAR cambió la pregunta!', 'gold');
+            this.loadCurrentQuestion();
+          } else {
+            this.toast('No hay más preguntas disponibles en esta categoría', 'slate');
+          }
+        }
+
+        // 4. SALTEAR Y VALIDAR (PASE DE GOL)
+        else if (type === 'pass') {
+          this.deductCoins(cost);
+          clearInterval(this.timerInterval);
+          this.isLocked = true;
+
+          this.state.totalAnswered++;
+          this.state.totalCorrect++;
+          this.state.currentStreak++;
+          if (this.state.currentStreak > this.state.bestStreak) {
+            this.state.bestStreak = this.state.currentStreak;
+          }
+
+          const optionsBtns = document.querySelectorAll('.btn-option');
+          if (optionsBtns[q.correct]) {
+            optionsBtns[q.correct].classList.add('btn-option-correct');
+          }
+
+          this.sound.correct();
+          this.showFeedbackCard(true, '¡Pase de Gol Validado por Comodín!', '+1 Racha protegida', q.explanation);
+          this.checkCollectiblesUnlock();
+          this.saveState();
+          this.updateHeaderUI();
+        }
+
+        this.updateLifelinesButtonsUI();
+      }
+
+      deductCoins(amount) {
+        this.sound.coin();
+        this.state.coins -= amount;
+        this.saveState();
+        this.updateHeaderUI();
+      }
+
+      updateLifelinesButtonsUI() {
+        document.getElementById('btn-lifeline-5050').disabled = this.lifelinesUsed['5050'] || this.state.coins < 50;
+        document.getElementById('btn-lifeline-hint').disabled = this.lifelinesUsed['hint'] || this.state.coins < 75;
+        document.getElementById('btn-lifeline-var').disabled = this.state.coins < 100;
+        document.getElementById('btn-lifeline-pass').disabled = this.state.coins < 150;
+      }
+
+      // --- COMPROBACIÓN Y DESBLOQUEO DE COLECCIONABLES ---
+      checkCollectiblesUnlock() {
+        COLLECTIBLES_DB.forEach(item => {
+          if (!this.state.unlockedItems.includes(item.id)) {
+            if (item.condition(this.state)) {
+              this.state.unlockedItems.push(item.id);
+              this.sound.unlock();
+              this.toast(`🎉 ¡Desbloqueaste: ${item.name}!`, 'gold');
+            }
+          }
+        });
+      }
+
+      // --- RENDERIZADO DE LA VITRINA / CLUB ---
+      renderShowcase(activeTab = 'all') {
+        const grid = document.getElementById('showcase-items-grid');
+        grid.innerHTML = '';
+
+        let items = COLLECTIBLES_DB;
+        if (activeTab !== 'all') {
+          items = COLLECTIBLES_DB.filter(it => it.type === activeTab);
+        }
+
+        document.getElementById('showcase-counter-badge').textContent = `${this.state.unlockedItems.length} / ${COLLECTIBLES_DB.length} Conseguidos`;
+
+        items.forEach(item => {
+          const isUnlocked = this.state.unlockedItems.includes(item.id);
+          const card = document.createElement('div');
+
+          if (isUnlocked) {
+            card.className = `rounded-2xl p-4 sm:p-5 flex flex-col justify-between shadow-xl transition-all hover:scale-105 duration-300 relative overflow-hidden ${item.rarityClass}`;
+            card.innerHTML = `
+              <div class="flex items-center justify-between mb-3">
+                <span class="text-[10px] uppercase font-black px-2 py-0.5 rounded-full bg-dark-950/70 border border-gold/40 text-gold tracking-wider">
+                  ${item.rarity}
+                </span>
+                <span class="text-[11px] font-extrabold text-pitch flex items-center gap-1">
+                  <i class="fa-solid fa-circle-check"></i> Obtenido
+                </span>
+              </div>
+              <div class="my-3 text-center">
+                <div class="w-16 h-16 mx-auto rounded-2xl bg-dark-950/60 flex items-center justify-center text-3xl ${item.iconColor} shadow-inner mb-2">
+                  <i class="fa-solid ${item.icon}"></i>
+                </div>
+                <h4 class="font-display font-black text-base text-white leading-tight">${item.name}</h4>
+                <p class="text-xs text-slate-300 mt-1 font-medium">${item.subtitle}</p>
+              </div>
+              <div class="pt-2 border-t border-dark-700/50 text-[10px] text-slate-400 text-center uppercase tracking-wider font-bold">
+                ${item.typeLabel}
+              </div>
+            `;
+          } else {
+            card.className = 'rounded-2xl p-4 sm:p-5 flex flex-col justify-between bg-dark-850/50 border border-dark-700/80 opacity-60 filter grayscale hover:grayscale-0 hover:opacity-90 transition-all';
+            card.innerHTML = `
+              <div class="flex items-center justify-between mb-3">
+                <span class="text-[10px] uppercase font-black px-2 py-0.5 rounded-full bg-dark-900 border border-dark-700 text-slate-400">
+                  ${item.rarity}
+                </span>
+                <span class="text-[11px] font-bold text-slate-400 flex items-center gap-1">
+                  <i class="fa-solid fa-lock text-xs"></i> Bloqueado
+                </span>
+              </div>
+              <div class="my-3 text-center">
+                <div class="w-16 h-16 mx-auto rounded-2xl bg-dark-900 border border-dark-700 flex items-center justify-center text-2xl text-slate-500 mb-2">
+                  <i class="fa-solid ${item.icon}"></i>
+                </div>
+                <h4 class="font-display font-bold text-sm text-slate-300">${item.name}</h4>
+                <p class="text-[11px] text-slate-400 mt-1">${item.subtitle}</p>
+              </div>
+              <div class="pt-2 border-t border-dark-700/50 text-[10px] text-gold font-bold text-center">
+                🔒 ${item.requirementText}
+              </div>
+            `;
+          }
+
+          grid.appendChild(card);
+        });
+      }
+
+      filterShowcase(tabName) {
+        this.sound.click();
+        const tabs = document.querySelectorAll('.tab-btn');
+        tabs.forEach(t => {
+          if (t.dataset.tab === tabName) {
+            t.className = 'tab-btn active px-4 py-2 rounded-xl text-xs font-extrabold bg-pitch text-dark-950 transition-all whitespace-nowrap';
+          } else {
+            t.className = 'tab-btn px-4 py-2 rounded-xl text-xs font-extrabold bg-dark-850 hover:bg-dark-800 text-slate-300 hover:text-white border border-dark-700 transition-all whitespace-nowrap';
+          }
+        });
+        this.renderShowcase(tabName);
+      }
+
+      // --- MODAL DE ESTADÍSTICAS ---
+      openStatsModal() {
+        this.sound.click();
+        const total = this.state.totalAnswered;
+        const correct = this.state.totalCorrect;
+        const pct = total > 0 ? Math.round((correct / total) * 100) : 0;
+
+        document.getElementById('modal-stat-total').textContent = total;
+        document.getElementById('modal-stat-correct').textContent = correct;
+        document.getElementById('modal-stat-percent').textContent = `${pct}%`;
+        document.getElementById('modal-stat-current-streak').textContent = this.state.currentStreak;
+        document.getElementById('modal-stat-best-streak').textContent = this.state.bestStreak;
+        document.getElementById('modal-stat-coins').textContent = `${this.state.coins} 🪙`;
+
+        document.getElementById('modal-stats').classList.remove('hidden');
+      }
+
+      closeStatsModal() {
+        this.sound.click();
+        document.getElementById('modal-stats').classList.add('hidden');
+      }
+
+      exitQuizConfirm() {
+        if (confirm('¿Abandonar la partida actual? Perderás el progreso de la serie.')) {
+          clearInterval(this.timerInterval);
+          this.navigate('categories');
+        }
+      }
+
+      resetProgressConfirm() {
+        if (confirm('¿Estás seguro de que deseas borrar todo tu progreso, monedas y coleccionables? Esta acción no se puede deshacer.')) {
+          localStorage.removeItem(this.storageKey);
+          this.loadState();
+          this.closeStatsModal();
+          this.updateHomeStatsUI();
+          this.toast('Progreso reiniciado por completo', 'red');
+        }
+      }
+    }
+
+    // Instancia Global
+    let app;
+    document.addEventListener('DOMContentLoaded', () => {
+      app = new TriviaApp();
+      app.init();
+    });
+  </script>
 </body>
 </html>
